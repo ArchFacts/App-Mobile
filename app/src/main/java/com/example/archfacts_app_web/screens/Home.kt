@@ -9,6 +9,6 @@ import com.example.archfacts_app_web.components.NavbarPreview
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
     Column {
-        NavbarPreview()
+        HeroSectionPreview()
     }
 }

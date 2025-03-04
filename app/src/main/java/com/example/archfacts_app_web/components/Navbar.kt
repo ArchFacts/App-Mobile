@@ -57,7 +57,7 @@ fun Navbar(modifier: Modifier = Modifier) {
             )
 
             Spacer(
-                modifier = modifier.width(40.dp)
+                modifier = modifier.width(30.dp)
             )
 
             Text(
