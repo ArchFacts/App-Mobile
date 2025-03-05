@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsEndWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.example.archfacts_app_web.R
 import com.example.archfacts_app_web.components.CustomButton
 import com.example.archfacts_app_web.components.HeroBanner
+import com.example.archfacts_app_web.components.HeroDownBar
 import com.example.archfacts_app_web.components.Navbar
 import com.example.archfacts_app_web.ui.theme.ArchFactsAppWebTheme
 import com.example.archfacts_app_web.ui.theme.ArchOrange
@@ -41,10 +43,10 @@ fun HeroSection() {
             .background(Color.Black.copy(alpha = 0.7f)))
     }
 
-    Column () {
+    Column ( ) {
         Navbar()
 
-        Spacer(modifier = Modifier.height(100.dp))
+        Spacer(modifier = Modifier.weight(0.45f))
 
         HeroBanner(modifier = Modifier.padding(15.dp))
 
@@ -62,7 +64,11 @@ fun HeroSection() {
                 35.dp,
                 ArchOrange,)
         }
+
+        Spacer(modifier = Modifier.weight(1f))
+        HeroDownBar()
     }
+
 }
 
 @Preview(showBackground = true)

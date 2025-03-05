@@ -24,6 +24,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.archfacts_app_web.R
+import com.example.archfacts_app_web.ui.theme.ArchBlack
+import com.example.archfacts_app_web.ui.theme.ArchBlackTransparent
 import com.example.archfacts_app_web.ui.theme.ArchOrange
 import com.example.archfacts_app_web.ui.theme.Poppins
 
@@ -68,8 +70,9 @@ fun HeroDownBar() {
     )
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly
+        modifier = Modifier.fillMaxWidth()
+            .background(ArchBlackTransparent),
+        horizontalArrangement = Arrangement.SpaceEvenly,
     ) {
         items.forEach { (icon, text) ->
             HeroItem(icon = icon, text = text)
