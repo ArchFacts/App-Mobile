@@ -2,6 +2,7 @@ package com.example.archfacts_app_web.components
 
 import android.graphics.fonts.Font
 import android.util.Size
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
@@ -27,24 +28,25 @@ fun CustomButton(
     width: Dp = 150.dp,
     height: Dp = 50.dp,
     backgroundColor: Color = ArchBlue,
-    textColor: Color = Color.White,
     fontSize: TextUnit = 16.sp,
-    fontFamily : FontFamily = Poppins,
-    fontWeight: FontWeight = FontWeight.SemiBold
-    ,
+    textColor: Color = Color.White,
+    fontFamily: FontFamily = Poppins,
+    fontWeight: FontWeight = FontWeight.SemiBold,
 ) {
     Button(
         onClick = onClick,
         modifier = Modifier
             .width(width)
             .height(height),
-        colors = ButtonDefaults.buttonColors(containerColor = backgroundColor)
+        colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),
+        contentPadding = PaddingValues(0.dp)
     ) {
-        Text(text = text, color = textColor,
+        Text(
+            text = text, color = textColor,
             fontSize = fontSize,
             fontFamily = fontFamily,
             fontWeight = fontWeight
-            )
+        )
     }
 }
 
@@ -52,5 +54,5 @@ fun CustomButton(
 @Preview
 @Composable
 fun CustomButtonPreview() {
-    CustomButton("Saiba mais", { println("Clicou")   })
+    CustomButton("Saiba mais", { println("Clicou") })
 }

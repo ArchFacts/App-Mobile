@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.materialIcon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,7 +23,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.archfacts_app_web.R
-import com.example.archfacts_app_web.ui.theme.ArchBlack
 import com.example.archfacts_app_web.ui.theme.ArchBlackTransparent
 import com.example.archfacts_app_web.ui.theme.ArchOrange
 import com.example.archfacts_app_web.ui.theme.Poppins
@@ -32,7 +30,8 @@ import com.example.archfacts_app_web.ui.theme.Poppins
 @Composable
 fun HeroItem(icon: Painter, text: String) {
     Row(
-        modifier = Modifier.padding(8.dp),
+        modifier = Modifier
+            .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
@@ -53,10 +52,11 @@ fun HeroItem(icon: Painter, text: String) {
 
         Text(
             text = text,
-            fontSize = 16.sp,
+            fontSize = 12.sp,
             fontFamily = Poppins,
             fontWeight = FontWeight.Normal,
-            color = Color.White
+            color = Color.White,
+            maxLines = 1
         )
     }
 }
@@ -70,9 +70,11 @@ fun HeroDownBar() {
     )
 
     Row(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .background(ArchBlackTransparent),
         horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         items.forEach { (icon, text) ->
             HeroItem(icon = icon, text = text)
