@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
@@ -30,11 +31,13 @@ fun Navbar(modifier: Modifier = Modifier) {
         modifier = modifier
             .fillMaxWidth()
             .background(ArchBlack)
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 15.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Row {
+
+
+        Row (verticalAlignment = Alignment.CenterVertically) {
             // Logos
             Image(
                 painter = painterResource(id = R.drawable.logo),
@@ -44,7 +47,7 @@ fun Navbar(modifier: Modifier = Modifier) {
             Image(
                 painter = painterResource(id = R.drawable.logo_af),
                 contentDescription = "Logo com letras 'AF' ArchFacts",
-                modifier = Modifier.size(50.dp)
+                modifier = Modifier.size(70.dp),
             )
         }
 
@@ -57,7 +60,7 @@ fun Navbar(modifier: Modifier = Modifier) {
             )
 
             Spacer(
-                modifier = modifier.width(30.dp)
+                modifier = modifier.width(20.dp)
             )
 
             Text(
