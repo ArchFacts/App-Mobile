@@ -3,8 +3,11 @@ package com.example.archfacts_app_web.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -16,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -27,9 +31,7 @@ import com.example.archfacts_app_web.ui.theme.ArchBlackTransparent
 import com.example.archfacts_app_web.ui.theme.Poppins
 
 data class IconTextElement(
-    val icon: Painter,
-    val title: String,
-    val desc: String
+    val icon: Painter, val title: String, val desc: String
 )
 
 @Composable
@@ -37,13 +39,12 @@ fun IconTextLayout(icon: Painter, title: String, desc: String) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp), verticalArrangement = Arrangement.Center,
+            .padding(8.dp),
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = icon,
-            contentDescription = title,
-            modifier = Modifier.size(48.dp)
+            painter = icon, contentDescription = title, modifier = Modifier.size(48.dp)
         )
         Text(
             text = title,
@@ -84,8 +85,7 @@ fun IconTextLayout(icon: Painter, title: String, desc: String) {
             Image(
                 painter = painterResource(id = R.drawable.seta_direita),
                 contentDescription = "Seta esquerda",
-                modifier = Modifier
-                    .size(32.dp)
+                modifier = Modifier.size(32.dp)
             )
         }
     }
@@ -116,15 +116,34 @@ fun IconTextContainer() {
 //        )
     )
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(ArchBlackTransparent)
-            .padding(15.dp),
-        verticalArrangement = Arrangement.SpaceEvenly
-    ) {
-        items.forEach { (icon, title, text) ->
-            IconTextLayout(icon, title, text)
+    Box(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.Bottom,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.logo),
+                contentDescription = "Logo Principal ArchFacts",
+                modifier = Modifier.size(150.dp)
+            )
+            Image(
+                painter = painterResource(id = R.drawable.logo_af),
+                contentDescription = "Logo com letras 'AF' ArchFacts",
+                modifier = Modifier.size(170.dp),
+            )
+        }
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(ArchBlackTransparent)
+                .padding(15.dp),
+            verticalArrangement = Arrangement.SpaceEvenly
+        ) {
+            items.forEach { (icon, title, text) ->
+                IconTextLayout(icon, title, text)
+            }
         }
     }
 }
