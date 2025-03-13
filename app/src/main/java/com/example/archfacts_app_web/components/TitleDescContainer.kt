@@ -5,16 +5,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -24,7 +20,6 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.archfacts_app_web.ui.theme.Poppins
-import org.w3c.dom.Text
 
 data class TitleStyle(
     val fontSize: TextUnit = 24.sp,
@@ -42,16 +37,12 @@ data class DescStyle(
 
 @Composable
 fun TitleDescContainer(
-    modifier: Modifier = Modifier.fillMaxWidth(),
     height: Dp = 300.dp,
     title: String,
     desc: String,
     background: Color = Color.White,
     titleStyle: TitleStyle = TitleStyle(),
     descStyle: DescStyle = DescStyle(),
-    shadowColor: Color = Color.Black.copy(alpha = 0.25f),
-    shadowElevation: Dp = 12.dp,
-    cornerRadius: Dp = 25.dp
 ) {
     Surface(
         modifier = Modifier
@@ -92,7 +83,7 @@ fun TitleDescContainer(
     }
 }
 
-@Preview()
+@Preview
 @Composable
 fun PreviewTitleDescContainer() {
     TitleDescContainer(
