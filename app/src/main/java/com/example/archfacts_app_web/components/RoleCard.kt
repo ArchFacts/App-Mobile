@@ -102,7 +102,7 @@ fun RoleCard(
     }
 }
 
-@Preview(showBackground = true)
+@Preview()
 @Composable
 fun RoleCardPreview() {
     RoleCard(
