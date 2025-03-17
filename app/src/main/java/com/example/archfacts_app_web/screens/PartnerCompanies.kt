@@ -1,0 +1,129 @@
+package com.example.archfacts_app_web
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.archfacts_app_web.components.EcorpCard
+import com.example.archfacts_app_web.components.HamburguerMenu
+import com.example.archfacts_app_web.ui.theme.ArchFactsAppWebTheme
+import com.example.archfacts_app_web.ui.theme.Poppins
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PartnerCompaniesScreen() {
+    var searchQuery by remember { mutableStateOf("") } // Estado para a barra de pesquisa
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(
+                    text = "Empresas Parceiras",
+                    fontFamily = Poppins,
+                    fontWeight = FontWeight.Normal,
+                    color = Color.White
+
+                ) },
+                navigationIcon = {
+                    HamburguerMenu(
+                        modifier = Modifier.padding(12.dp)
+                    )
+                }
+            )
+        },
+        content = { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+            ) {
+                // Barra de pesquisa
+                SearchBar(
+                    query = searchQuery,
+                    onQueryChange = { searchQuery = it },
+                    onSearch = { /* Lógica de pesquisa */ },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Cards das empresas
+                EcorpCard(
+                    companyName = "ECORP",
+                    cardHeight = 120.dp,
+                    registrationDate = "07/03/2005"
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                EcorpCard(
+                    companyName = "ECORP",
+                    cardHeight = 120.dp,
+                    registrationDate = "07/03/2005"
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                EcorpCard(
+                    companyName = "ECORP",
+                    cardHeight = 120.dp,
+                    registrationDate = "07/03/2005"
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+        }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SearchBar(
+    query: String,
+    onQueryChange: (String) -> Unit,
+    onSearch: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    TextField(
+        value = query,
+        onValueChange = onQueryChange,
+        leadingIcon = {
+            Icon(Icons.Default.Search, contentDescription = "Ícone de pesquisa")
+        },
+        placeholder = {
+            Text("Pesquisar...")
+        },
+        modifier = modifier
+            .fillMaxWidth()
+            .height(56.dp),
+        shape = MaterialTheme.shapes.medium,
+        colors = TextFieldDefaults.textFieldColors(
+            containerColor = Color(0xFFF5F5F5), // Fundo levemente cinza
+            focusedIndicatorColor = Color.Gray, // Linha na parte de baixo quando focado
+            unfocusedIndicatorColor = Color.LightGray, // Linha na parte de baixo quando não focado
+            focusedTextColor = Color.Black, // Cor do texto quando focado
+            unfocusedTextColor = Color.Black // Cor do texto quando não focado
+        ),
+        singleLine = true
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DefaultPreview() {
+    ArchFactsAppWebTheme {
+        PartnerCompaniesScreen()
+    }
+}
