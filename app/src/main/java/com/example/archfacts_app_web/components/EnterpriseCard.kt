@@ -29,13 +29,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            EcorpCard()
+            EnterpriseCard()
         }
     }
 }
 
 @Composable
-fun EcorpCard(
+fun EnterpriseCard(
     companyName: String = "ECORP", // Nome da empresa (valor padrão: "ECORP")
     cardWidth: Dp = Dp.Unspecified, // Largura do card (valor padrão: não especificado)
     cardHeight: Dp = 120.dp, // Altura do card (valor padrão: 120.dp)
@@ -152,5 +152,5 @@ fun StarComponent(
 @Preview(showBackground = false)
 @Composable
 fun DefaultPreview() {
-    EcorpCard()
+    EnterpriseCard()
 }
