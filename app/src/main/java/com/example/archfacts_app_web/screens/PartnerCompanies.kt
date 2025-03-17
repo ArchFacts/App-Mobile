@@ -36,6 +36,7 @@ fun PartnerCompaniesScreen() {
                     fontFamily = Poppins,
                     fontWeight = FontWeight.Normal,
                     color = Color(0xFF033E8C)
+                   
 
                 ) },
                 navigationIcon = {
@@ -91,12 +92,7 @@ fun PartnerCompaniesScreen() {
                     cardHeight = 120.dp,
                     registrationDate = "24/11/2004",
                     companyImage = R.drawable.volks
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                EcorpCard(
-                    companyName = "ECORP",
-                    cardHeight = 120.dp,
-                    registrationDate = "11/10/2019"
+
                 )
                 Spacer(modifier = Modifier.height(16.dp))
             }
