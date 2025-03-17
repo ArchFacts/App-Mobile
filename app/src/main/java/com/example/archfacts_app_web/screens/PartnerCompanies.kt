@@ -35,7 +35,8 @@ fun PartnerCompaniesScreen() {
                     text = "Empresas Parceiras",
                     fontFamily = Poppins,
                     fontWeight = FontWeight.Normal,
-                    color = Color.White
+                    color = Color(0xFF033E8C)
+                   
 
                 ) },
                 navigationIcon = {
@@ -49,7 +50,7 @@ fun PartnerCompaniesScreen() {
             Column(
                 modifier = Modifier
                     .padding(paddingValues)
-                    .fillMaxSize()
+                    .height(900.dp)
                     .verticalScroll(rememberScrollState())
             ) {
                 // Barra de pesquisa
@@ -62,25 +63,36 @@ fun PartnerCompaniesScreen() {
                         .padding(16.dp)
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(25.dp))
 
                 // Cards das empresas
                 EcorpCard(
-                    companyName = "ECORP",
+                    companyName = "Google",
                     cardHeight = 120.dp,
-                    registrationDate = "07/03/2005"
+                    registrationDate = "01/09/2001",
+                    companyImage = R.drawable.google3
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 EcorpCard(
-                    companyName = "ECORP",
+                    companyName = "Microsoft",
                     cardHeight = 120.dp,
-                    registrationDate = "07/03/2005"
+                    registrationDate = "15/06/2015",
+                    companyImage = R.drawable.microsoft
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 EcorpCard(
-                    companyName = "ECORP",
+                    companyName = "Shell",
                     cardHeight = 120.dp,
-                    registrationDate = "07/03/2005"
+                    registrationDate = "22/04/2008",
+                    companyImage = R.drawable.shell
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                EcorpCard(
+                    companyName = "VolksWagen",
+                    cardHeight = 120.dp,
+                    registrationDate = "24/11/2004",
+                    companyImage = R.drawable.volks
+
                 )
                 Spacer(modifier = Modifier.height(16.dp))
             }
@@ -120,7 +132,7 @@ fun SearchBar(
     )
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = false)
 @Composable
 fun DefaultPreview() {
     ArchFactsAppWebTheme {
