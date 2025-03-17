@@ -39,11 +39,11 @@ data class FormInput(
 fun FormInputField(label: String, placeholder: String) {
     var text: String by remember { mutableStateOf("") }
 
-    Column {
+    Column (modifier = Modifier.padding(10.dp)) {
         Text(
             text = label,
             color = ArchBlue,
-            fontSize = 12.sp,
+            fontSize = 20.sp,
             fontFamily = Poppins,
             fontWeight = FontWeight.Light
         )
@@ -60,7 +60,7 @@ fun FormInputField(label: String, placeholder: String) {
                     Text(
                         text = placeholder,
                         color = Color.Black,
-                        fontSize = 14.sp
+                        fontSize = 14.sp,
                     )
                 },
                 modifier = Modifier.fillMaxWidth(),
@@ -68,7 +68,7 @@ fun FormInputField(label: String, placeholder: String) {
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.Transparent,
                     unfocusedContainerColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
+                    focusedIndicatorColor = ArchBlue,
                     unfocusedIndicatorColor = Color.Transparent,
                     disabledIndicatorColor = Color.Transparent
                 ),
@@ -76,7 +76,7 @@ fun FormInputField(label: String, placeholder: String) {
             )
             HorizontalDivider(
                 color = Color.Black,
-                thickness = 1.dp,
+                thickness = 0.5.dp,
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
@@ -101,10 +101,10 @@ fun FormContainer(inputs: List<FormInput>) {
         shape = RoundedCornerShape(16.dp),
         color = Color.White,
     ) {
-        Column {
+        Column (modifier = Modifier.padding(20.dp)) {
             inputs.forEach { input ->
                 FormInputField(input.label, input.placeholder)
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(8.dp))
             }
         }
     }
