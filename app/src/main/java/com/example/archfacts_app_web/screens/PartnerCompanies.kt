@@ -1,14 +1,9 @@
 package com.example.archfacts_app_web
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -17,7 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.archfacts_app_web.components.EcorpCard
+import com.example.archfacts_app_web.components.EnterpriseCard
 import com.example.archfacts_app_web.components.HamburguerMenu
 import com.example.archfacts_app_web.ui.theme.ArchFactsAppWebTheme
 import com.example.archfacts_app_web.ui.theme.Poppins
@@ -65,35 +60,35 @@ fun PartnerCompaniesScreen() {
                 Spacer(modifier = Modifier.height(25.dp))
 
                 // Cards das empresas
-                EcorpCard(
+                EnterpriseCard(
                     companyName = "Google",
                     cardHeight = 120.dp,
                     registrationDate = "01/09/2001",
                     companyImage = R.drawable.google3
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                EcorpCard(
+                EnterpriseCard(
                     companyName = "Microsoft",
                     cardHeight = 120.dp,
                     registrationDate = "15/06/2015",
                     companyImage = R.drawable.microsoft
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                EcorpCard(
+                EnterpriseCard(
                     companyName = "Shell",
                     cardHeight = 120.dp,
                     registrationDate = "22/04/2008",
                     companyImage = R.drawable.shell
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                EcorpCard(
+                EnterpriseCard(
                     companyName = "VolksWagen",
                     cardHeight = 120.dp,
                     registrationDate = "24/11/2004",
                     companyImage = R.drawable.volks
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                EcorpCard(
+                EnterpriseCard(
                     companyName = "ECORP",
                     cardHeight = 120.dp,
                     registrationDate = "11/10/2019"
