@@ -32,6 +32,21 @@ import com.example.archfacts_app_web.ui.theme.ArchOrange
 import com.example.archfacts_app_web.ui.theme.Poppins
 
 @Composable
+fun Footer() {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        Arrangement.Center
+    ) {
+        Text(
+            text = "@2025 ArchFacts all rights reserved.",
+            color = Color.White,
+            fontFamily = Poppins,
+            fontWeight = FontWeight.Light
+        )
+    }
+}
+
+@Composable
 fun IconText(icon: Painter) {
     Row(
         modifier = Modifier.padding(vertical = 8.dp),
@@ -49,7 +64,7 @@ fun IconText(icon: Painter) {
 }
 
 @Composable
-fun Footer() {
+fun FooterSection() {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -102,23 +117,16 @@ fun Footer() {
                 CustomButton("Cadastre-se", { }, 150.dp, 30.dp, ArchOrange, 20.sp)
                 CustomButton("Login", { }, 150.dp, 30.dp, ArchBlue, 20.sp)
             }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                Arrangement.Center
-            ) {
-                Text(
-                    text = "@2025 ArchFacts all rights reserved.",
-                    color = Color.White,
-                    fontFamily = Poppins,
-                    fontWeight = FontWeight.Light
-                )
-            }
+
+            Footer()
+
         }
     }
 }
 
+
 @Preview(showBackground = true)
 @Composable
 private fun FooterPreview() {
-    Footer()
+    FooterSection()
 }

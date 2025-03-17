@@ -85,11 +85,11 @@ fun RoleCard(
                     contentDescription = "Imagem representativa das roles na plataforma",
                 )
 
-                Column(modifier = Modifier.padding(15.dp)) {
+                Column(modifier = Modifier.padding(vertical = 30.dp, horizontal = 15.dp)) {
                     Text(
                         text = title,
                         color = ArchOrange,
-                        fontSize = 20.sp,
+                        fontSize = 32.sp,
                     )
 
                     Spacer(modifier = Modifier.height(5.dp))
@@ -97,7 +97,7 @@ fun RoleCard(
                     Text(
                         text = subtitle,
                         color = Color.White,
-                        fontSize = 14.sp,
+                        fontSize = 16.sp,
 
                         )
 

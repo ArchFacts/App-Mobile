@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -22,6 +21,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,7 +40,7 @@ data class FormInput(
 fun FormInputField(label: String, placeholder: String) {
     var text: String by remember { mutableStateOf("") }
 
-    Column (modifier = Modifier.padding(10.dp)) {
+    Column(modifier = Modifier.padding(10.dp)) {
         Text(
             text = label,
             color = ArchBlue,
@@ -86,7 +87,7 @@ fun FormInputField(label: String, placeholder: String) {
 }
 
 @Composable
-fun FormContainer(inputs: List<FormInput>) {
+fun FormContainer(inputs: List<FormInput>, shape: Shape = RectangleShape) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -101,7 +102,7 @@ fun FormContainer(inputs: List<FormInput>) {
         shape = RoundedCornerShape(16.dp),
         color = Color.White,
     ) {
-        Column (modifier = Modifier.padding(20.dp)) {
+        Column(modifier = Modifier.padding(20.dp)) {
             inputs.forEach { input ->
                 FormInputField(input.label, input.placeholder)
                 Spacer(modifier = Modifier.height(8.dp))
