@@ -27,7 +27,8 @@ fun DetailCard(
     startDate: String,
     endDate: String,
     buttonText: String,
-    onButtonClick: () -> Unit
+    onButtonClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
 
     Column(modifier = Modifier.padding(16.dp)
@@ -132,6 +133,7 @@ fun PreviewDetailCard() {
         startDate = "07/03/2025",
         endDate = "07/03/2025",
         buttonText = "Finalizar",
-        onButtonClick = { }
+        onButtonClick = { },
+        modifier = Modifier
     )
 }
