@@ -35,8 +35,7 @@ fun ProjectDetails() {
             .fillMaxSize()
             .background(Color.White)
     ) {
-            HamburguerMenu(modifier = Modifier
-                .padding(10.dp))
+            HamburguerMenu(modifier = Modifier)
 
         Row(
             modifier = Modifier.fillMaxWidth(),

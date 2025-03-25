@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -38,11 +39,27 @@ import com.example.archfacts_app_web.components.SearchBar
 import com.example.archfacts_app_web.ui.theme.ArchBlack
 import com.example.archfacts_app_web.ui.theme.ArchBlue
 
+data class Project(val name: String)
 
 @Preview
 @Composable
 fun AllProjects() {
     val query = remember { mutableStateOf("") }
+
+    val allProjects = remember{
+        mutableStateOf(listOf(
+            Project("Projeto de Abelhas"),
+            Project("Projeto de Bananas"),
+            Project("Projeto de Madeiras"),
+            Project("Projeto de Cozinhas"),
+            Project("Projeto de Celulares")
+        ))
+    }
+
+    val filteredProjects = allProjects.value.filter {
+        it.name.contains(query.value, ignoreCase = true)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -50,7 +67,7 @@ fun AllProjects() {
     ) {
         HamburguerMenu(
             modifier = Modifier
-                .padding(10.dp)
+                .align(Alignment.Start)
         )
 
         Row(
@@ -97,89 +114,34 @@ fun AllProjects() {
                     modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(50.dp)
                 ) {
-                    Row(
+                    if (filteredProjects.isNotEmpty()) {
+                        filteredProjects.forEach { project ->
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .background(ArchBlack, shape = RoundedCornerShape(12.dp))
+                                        .border(2.dp, ArchBlack, shape = RoundedCornerShape(12.dp))
+                                        .padding(12.dp)
+                                        .fillMaxWidth(0.98f)
+                                        .height(50.dp)
+                                ) {
+                                    ProjectTitle(
+                                        title = project.name,
+                                        color = Color.White,
+                                        modifier = Modifier.align(Alignment.Center)
+                                    )
+                                }
+                            }
+                        }
+                    } else {
+                        Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.Center
                         ) {
-                            Box(
-                                modifier = Modifier
-                                    .background(ArchBlack, shape = RoundedCornerShape(12.dp))
-                                    .border(2.dp, ArchBlack, shape = RoundedCornerShape(12.dp))
-                                    .padding(12.dp)
-                            ) {
-                                ProjectTitle(
-                                    title = "Projeto de Abelhas",
-                                    color = Color.White,
-                                    modifier = Modifier.align(Alignment.Center)
-                                )
-                            }
-                    }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .background(ArchBlack, shape = RoundedCornerShape(12.dp))
-                                .border(2.dp, ArchBlack, shape = RoundedCornerShape(12.dp))
-                                .padding(12.dp)
-                        ) {
-                            ProjectTitle(
-                                title = "Projeto de Abelhas",
-                                color = Color.White,
-                                modifier = Modifier.align(Alignment.Center)
-                            )
-                        }
-                    }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .background(ArchBlack, shape = RoundedCornerShape(12.dp))
-                                .border(2.dp, ArchBlack, shape = RoundedCornerShape(12.dp))
-                                .padding(12.dp)
-                        ) {
-                            ProjectTitle(
-                                title = "Projeto de Abelhas",
-                                color = Color.White,
-                                modifier = Modifier.align(Alignment.Center)
-                            )
-                        }
-                    }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .background(ArchBlack, shape = RoundedCornerShape(12.dp))
-                                .border(2.dp, ArchBlack, shape = RoundedCornerShape(12.dp))
-                                .padding(12.dp)
-                        ) {
-                            ProjectTitle(
-                                title = "Projeto de Abelhas",
-                                color = Color.White,
-                                modifier = Modifier.align(Alignment.Center)
-                            )
-                        }
-                    }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .background(ArchBlack, shape = RoundedCornerShape(12.dp))
-                                .border(2.dp, ArchBlack, shape = RoundedCornerShape(12.dp))
-                                .padding(12.dp)
-                        ) {
-                            ProjectTitle(
-                                title = "Projeto de Abelhas",
-                                color = Color.White,
-                                modifier = Modifier.align(Alignment.Center)
-                            )
+                            Text("Nenhum projeto encontrado", color = Color.Gray)
                         }
                     }
                 }
@@ -188,7 +150,7 @@ fun AllProjects() {
     }
 }
 
-        @OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBar(
     query: String,
