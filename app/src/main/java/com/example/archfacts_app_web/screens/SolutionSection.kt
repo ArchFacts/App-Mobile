@@ -44,6 +44,6 @@ fun SolutionSection() {
 
 @Preview
 @Composable
-private fun SolutionSectionPreview() {
+fun SolutionSectionPreview() {
     SolutionSection()
 }

@@ -35,6 +35,6 @@ fun RoleSection(modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-private fun RoleSectionPreview() {
+fun RoleSectionPreview() {
     RoleSection()
 }

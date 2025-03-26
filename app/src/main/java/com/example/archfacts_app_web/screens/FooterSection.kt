@@ -127,6 +127,6 @@ fun FooterSection() {
 
 @Preview(showBackground = true)
 @Composable
-private fun FooterPreview() {
+fun FooterSectionPreview() {
     FooterSection()
 }

@@ -1,12 +1,22 @@
 package com.example.archfacts_app_web.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text2.BasicSecureTextField
+import androidx.compose.foundation.text2.input.TextFieldState
+import androidx.compose.foundation.text2.input.TextObfuscationMode
+import androidx.compose.foundation.text2.input.rememberTextFieldState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -23,22 +33,30 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.archfacts_app_web.R
 import com.example.archfacts_app_web.ui.theme.ArchBlue
 import com.example.archfacts_app_web.ui.theme.Poppins
 
 data class FormInput(
     val label: String,
-    val placeholder: String
+    val placeholder: String,
+    val isPassword: Boolean = false,
 )
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun FormInputField(label: String, placeholder: String) {
+fun FormInputField(label: String, placeholder: String, isPassword: Boolean) {
     var text: String by remember { mutableStateOf("") }
+    var senhaVisivel by remember { mutableStateOf(false) }
+
+    val textFieldState = rememberTextFieldState()
 
     Column(modifier = Modifier.padding(10.dp)) {
         Text(
@@ -54,6 +72,20 @@ fun FormInputField(label: String, placeholder: String) {
                 .fillMaxWidth()
                 .padding(bottom = 8.dp)
         ) {
+            if (isPassword) {
+                BasicSecureTextField(
+                    state = remember { TextFieldState() },
+                    textObfuscationMode = if (senhaVisivel) {
+                        TextObfuscationMode.Visible
+                    } else {
+                        TextObfuscationMode.RevealLastTyped
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    placeholder = { Text(placeholder) },
+                    textStyle = TextStyle(fontSize = 16.sp),
+                )
+            }
+
             TextField(
                 value = text,
                 onValueChange = { text = it },
@@ -87,7 +119,12 @@ fun FormInputField(label: String, placeholder: String) {
 }
 
 @Composable
-fun FormContainer(inputs: List<FormInput>, shape: Shape = RectangleShape) {
+fun FormContainer(
+    inputs: List<FormInput>, shape: Shape = RectangleShape,
+    title: String? = null,
+    mostrarSeta: Boolean = false,
+    cliqueSeta: () -> Unit = {},
+) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -102,9 +139,36 @@ fun FormContainer(inputs: List<FormInput>, shape: Shape = RectangleShape) {
         shape = RoundedCornerShape(16.dp),
         color = Color.White,
     ) {
-        Column(modifier = Modifier.padding(20.dp)) {
+        Column(
+            modifier = Modifier.padding(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            if (title != null && mostrarSeta) {
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Image(painter = painterResource(id = R.drawable.return_arrow),
+                        contentDescription = "Voltar",
+                        modifier = Modifier
+                            .size(48.dp)
+                            .clickable { cliqueSeta() }
+                            .fillMaxWidth())
+                }
+                Row {
+                    Text(
+                        text = title,
+                        color = ArchBlue,
+                        fontSize = 28.sp,
+                        fontFamily = Poppins,
+                        fontWeight = FontWeight.Medium,
+                    )
+                }
+            }
+
             inputs.forEach { input ->
-                FormInputField(input.label, input.placeholder)
+                FormInputField(
+                    input.label, input.placeholder,
+                    isPassword = input.isPassword
+                )
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }
@@ -119,8 +183,7 @@ fun FormContainerPreview() {
         FormInput(label = "Nome:", placeholder = ""),
         FormInput(label = "Telefone:", placeholder = ""),
         FormInput(label = "Mensagem:", placeholder = "")
-
     )
 
-    FormContainer(inputs = inputs)
+    FormContainer(inputs = inputs, title = "Cadastro", mostrarSeta = true)
 }
