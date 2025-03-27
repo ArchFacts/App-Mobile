@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.archfacts_app_web.R
+import com.example.archfacts_app_web.ui.theme.ArchBlack
 import com.example.archfacts_app_web.ui.theme.ArchBlackTransparent
 import com.example.archfacts_app_web.ui.theme.Poppins
 
@@ -33,17 +36,16 @@ data class IconTextElement(
 fun IconTextLayout(icon: Painter, title: String, desc: String) {
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
+            .fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = icon, contentDescription = title, modifier = Modifier.size(48.dp)
+            painter = icon, contentDescription = title, modifier = Modifier.size(92.dp)
         )
         Text(
             text = title,
-            fontSize = 24.sp,
+            fontSize = 36.sp,
             fontFamily = Poppins,
             fontWeight = FontWeight.Normal,
             color = Color.White,
@@ -61,12 +63,12 @@ fun IconTextLayout(icon: Painter, title: String, desc: String) {
             Image(
                 painter = painterResource(id = R.drawable.seta_esquerda),
                 contentDescription = "Seta direita",
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier.size(40.dp)
             )
 
             Text(
                 text = desc,
-                fontSize = 16.sp,
+                fontSize = 24.sp,
                 fontFamily = Poppins,
                 fontWeight = FontWeight.Light,
                 color = Color.White,
@@ -80,7 +82,7 @@ fun IconTextLayout(icon: Painter, title: String, desc: String) {
             Image(
                 painter = painterResource(id = R.drawable.seta_direita),
                 contentDescription = "Seta esquerda",
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier.size(40.dp)
             )
         }
     }
@@ -110,34 +112,37 @@ fun IconTextContainer() {
 //            desc = "Sem o controle do fluxo de caixa a sua empresa fica suscetível e imprevistos financeiros podem ser fatais. Um estudo realizado pelo IBGE em 2022 revela que 48% das empresas brasileiras fecham em até 3 anos por conta da má gestão financeira."
 //        )
     )
+    Surface (shape = RoundedCornerShape(15.dp)) {
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .background(ArchBlack)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.logo),
+                    contentDescription = "Logo Principal ArchFacts",
+                    modifier = Modifier.size(150.dp)
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.logo_af),
+                    contentDescription = "Logo com letras 'AF' ArchFacts",
+                    modifier = Modifier.size(170.dp),
+                )
+            }
 
-    Box(modifier = Modifier.fillMaxWidth()) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.Bottom,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.logo),
-                contentDescription = "Logo Principal ArchFacts",
-                modifier = Modifier.size(150.dp)
-            )
-            Image(
-                painter = painterResource(id = R.drawable.logo_af),
-                contentDescription = "Logo com letras 'AF' ArchFacts",
-                modifier = Modifier.size(170.dp),
-            )
-        }
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(ArchBlackTransparent)
-                .padding(15.dp),
-            verticalArrangement = Arrangement.SpaceEvenly
-        ) {
-            items.forEach { (icon, title, text) ->
-                IconTextLayout(icon, title, text)
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(ArchBlackTransparent)
+                    .padding(15.dp),
+                verticalArrangement = Arrangement.SpaceEvenly
+            ) {
+                items.forEach { (icon, title, text) ->
+                    IconTextLayout(icon, title, text)
+                }
             }
         }
     }

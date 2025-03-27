@@ -17,8 +17,8 @@ import com.example.archfacts_app_web.ui.theme.ArchBlue
 import com.example.archfacts_app_web.ui.theme.ArchOrange
 import com.example.archfacts_app_web.ui.theme.Poppins
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Event
-import androidx.compose.material.icons.filled.ContentPaste
+// import androidx.compose.material.icons.filled.Event
+// import androidx.compose.material.icons.filled.ContentPaste
 
 @Composable
 fun DetailCard(
@@ -50,12 +50,12 @@ fun DetailCard(
                 color = ArchBlue
             )
 
-            Icon(
-                imageVector = Icons.Filled.ContentPaste,
-                contentDescription = "Ícone do projeto",
-                modifier = Modifier.size(24.dp),
-                tint = Color(0xFF003A8C)
-            )
+//            Icon(
+//                imageVector = Icons.Filled.ContentPaste,
+//                contentDescription = "Ícone do projeto",
+//                modifier = Modifier.size(24.dp),
+//                tint = Color(0xFF003A8C)
+//            )
         }
 
         Row(
@@ -81,12 +81,12 @@ fun DetailCard(
         Row(verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(10.dp)
         ) {
-            Icon(
-                imageVector = Icons.Filled.Event,
-                contentDescription = "Ícone de calendário",
-                modifier = Modifier.size(18.dp),
-                tint = ArchBlack
-            )
+//            Icon(
+//                imageVector = Icons.Filled.Event,
+//                contentDescription = "Ícone de calendário",
+//                modifier = Modifier.size(18.dp),
+//                tint = ArchBlack
+//            )
             Spacer(modifier = Modifier.width(4.dp))
             Text(text = "$startDate (Início)", fontSize = 16.sp, color = ArchBlack)
         }
@@ -94,12 +94,12 @@ fun DetailCard(
         Row(verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(10.dp)
         ) {
-            Icon(
-                imageVector = Icons.Filled.Event,
-                contentDescription = "Ícone de calendário",
-                modifier = Modifier.size(18.dp),
-                tint = ArchBlack
-            )
+//            Icon(
+//                imageVector = Icons.Filled.Event,
+//                contentDescription = "Ícone de calendário",
+//                modifier = Modifier.size(18.dp),
+//                tint = ArchBlack
+//            )
             Spacer(modifier = Modifier.width(4.dp))
             Text(text = "$endDate (Fim)", fontSize = 16.sp, color = ArchBlack)
         }

@@ -42,7 +42,7 @@ fun HeroSection() {
         )
     }
 
-    Column() {
+    Column(modifier = Modifier.fillMaxSize()) {
         Navbar()
 
         Spacer(modifier = Modifier.weight(0.45f))

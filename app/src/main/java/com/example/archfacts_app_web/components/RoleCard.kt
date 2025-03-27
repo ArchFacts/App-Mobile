@@ -24,14 +24,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.archfacts_app_web.R
 import com.example.archfacts_app_web.ui.theme.ArchBlack
 import com.example.archfacts_app_web.ui.theme.ArchOrange
+import com.example.archfacts_app_web.ui.theme.Poppins
 
 @Composable
-fun BulletPointList(items: List<String>) {
+fun BulletPointList(
+    items: List<String>,
+    modifier: Modifier = Modifier,
+    fontSize: TextUnit = 12.sp
+) {
     Column(modifier = Modifier.fillMaxWidth()) {
         items.forEach { item ->
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -46,7 +53,8 @@ fun BulletPointList(items: List<String>) {
                 Text(
                     text = item,
                     color = Color.White,
-                    fontSize = 12.sp
+                    fontFamily = Poppins,
+                    fontSize = fontSize
                 )
             }
         }
@@ -77,11 +85,11 @@ fun RoleCard(
                     contentDescription = "Imagem representativa das roles na plataforma",
                 )
 
-                Column (modifier = Modifier.padding(15.dp)) {
+                Column(modifier = Modifier.padding(vertical = 30.dp, horizontal = 15.dp)) {
                     Text(
                         text = title,
                         color = ArchOrange,
-                        fontSize = 20.sp,
+                        fontSize = 32.sp,
                     )
 
                     Spacer(modifier = Modifier.height(5.dp))
@@ -89,9 +97,9 @@ fun RoleCard(
                     Text(
                         text = subtitle,
                         color = Color.White,
-                        fontSize = 14.sp,
+                        fontSize = 16.sp,
 
-                    )
+                        )
 
                     Spacer(modifier = Modifier.height(5.dp))
 
