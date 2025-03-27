@@ -17,7 +17,10 @@ import androidx.compose.foundation.text2.BasicSecureTextField
 import androidx.compose.foundation.text2.input.TextFieldState
 import androidx.compose.foundation.text2.input.TextObfuscationMode
 import androidx.compose.foundation.text2.input.rememberTextFieldState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -37,6 +40,8 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -54,9 +59,9 @@ data class FormInput(
 @Composable
 fun FormInputField(label: String, placeholder: String, isPassword: Boolean) {
     var text: String by remember { mutableStateOf("") }
+    var password: String by remember { mutableStateOf("") }
     var senhaVisivel by remember { mutableStateOf(false) }
 
-    val textFieldState = rememberTextFieldState()
 
     Column(modifier = Modifier.padding(10.dp)) {
         Text(
@@ -73,40 +78,65 @@ fun FormInputField(label: String, placeholder: String, isPassword: Boolean) {
                 .padding(bottom = 8.dp)
         ) {
             if (isPassword) {
-                BasicSecureTextField(
-                    state = remember { TextFieldState() },
-                    textObfuscationMode = if (senhaVisivel) {
-                        TextObfuscationMode.Visible
-                    } else {
-                        TextObfuscationMode.RevealLastTyped
+                TextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    placeholder = {
+                        Text(
+                            text = placeholder,
+                            color = Color.Black,
+                            fontSize = 14.sp,
+                        )
+                    },
+                    visualTransformation = if (senhaVisivel) VisualTransformation.None
+                    else PasswordVisualTransformation(),
+                    trailingIcon = {
+                        val image = if (senhaVisivel)
+                            painterResource(id = R.drawable.showing_eye)
+                        else painterResource(id = R.drawable.not_showing_eye)
+
+                        Icon(
+                            painter = image,
+                            contentDescription = "Mostrar (não) senha",
+                            modifier = Modifier.clickable { senhaVisivel = !senhaVisivel }
+                        )
+                    },
+                    shape = RoundedCornerShape(8.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.Transparent,
+                        unfocusedContainerColor = Color.Transparent,
+                        focusedIndicatorColor = ArchBlue,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent
+                    ),
+                )
+
+            } else {
+                TextField(
+                    value = text,
+                    onValueChange = { text = it },
+                    placeholder = {
+                        Text(
+                            text = placeholder,
+                            color = Color.Black,
+                            fontSize = 14.sp,
+                        )
                     },
                     modifier = Modifier.fillMaxWidth(),
-                    placeholder = { Text(placeholder) },
                     textStyle = TextStyle(fontSize = 16.sp),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.Transparent,
+                        unfocusedContainerColor = Color.Transparent,
+                        focusedIndicatorColor = ArchBlue,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent
+                    ),
+                    singleLine = true
                 )
             }
-
-            TextField(
-                value = text,
-                onValueChange = { text = it },
-                placeholder = {
-                    Text(
-                        text = placeholder,
-                        color = Color.Black,
-                        fontSize = 14.sp,
-                    )
-                },
-                modifier = Modifier.fillMaxWidth(),
-                textStyle = TextStyle(fontSize = 16.sp),
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
-                    focusedIndicatorColor = ArchBlue,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent
-                ),
-                singleLine = true
-            )
             HorizontalDivider(
                 color = Color.Black,
                 thickness = 0.5.dp,
@@ -182,7 +212,8 @@ fun FormContainerPreview() {
         FormInput(label = "E-mail:", placeholder = ""),
         FormInput(label = "Nome:", placeholder = ""),
         FormInput(label = "Telefone:", placeholder = ""),
-        FormInput(label = "Mensagem:", placeholder = "")
+        FormInput(label = "Mensagem:", placeholder = ""),
+        FormInput(label = "Senha:", placeholder = "", true)
     )
 
     FormContainer(inputs = inputs, title = "Cadastro", mostrarSeta = true)
