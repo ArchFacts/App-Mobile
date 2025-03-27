@@ -15,14 +15,16 @@ fun rememberNavActions(navController: NavHostController): NavActions {
 
 class NavActions(private val navController: NavHostController) {
     fun navigate(route: AppRoutes) {
+
+        println("Tentando navegar para $route")
+        println("NavController atual: $navController")
+
         try {
-            println("Tentando navegar para: ${route.route}")
+            println("Tentando navegar para: $route.route")
             navController.navigate(route.route) {
-                launchSingleTop = true
-                restoreState = true
             }
         } catch (e: Exception) {
-            println("Erro de navegação: ${e.localizedMessage}")
+            println("Erro de navegação: ${e.message}")
             e.printStackTrace()
         }
     }
@@ -39,12 +41,12 @@ fun AppNavGraph(navController: NavHostController) {
         startDestination = AppRoutes.Home.route
     ) {
         composable(route = AppRoutes.Home.route) {
-            val actions = remember(navController) { NavActions(navController) }
+            val actions = rememberNavActions(navController)
             HeroSection(actions)
         }
 
         composable(route = AppRoutes.Registro.route) {
-            val actions = remember(navController) { NavActions(navController) }
+            val actions = rememberNavActions(navController)
             Register(actions)
         }
 

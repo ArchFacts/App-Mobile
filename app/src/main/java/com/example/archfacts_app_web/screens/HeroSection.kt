@@ -45,6 +45,7 @@ fun HeroSection(navActions: NavActions) {
                 .background(Color.Black.copy(alpha = 0.75f))
         )
 
+
         Column(
             modifier = Modifier
                 .fillMaxSize(),
@@ -53,6 +54,8 @@ fun HeroSection(navActions: NavActions) {
             Navbar()
 
             Column(modifier = Modifier.weight(1f)) {
+
+                Spacer(modifier = Modifier.weight(0.5f))
 
                 HeroBanner(modifier = Modifier.padding(15.dp))
 
@@ -72,7 +75,7 @@ fun HeroSection(navActions: NavActions) {
                     CustomButton(
                         "Cadastre-se",
                         {
-                            println("Navegando para registro com controller")
+                            println("Navegando para registro com controller: ${navActions}")
                             navActions.navigate(AppRoutes.Registro)
                         },
                         165.dp,
