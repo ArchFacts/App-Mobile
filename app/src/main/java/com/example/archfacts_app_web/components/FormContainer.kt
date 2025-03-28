@@ -29,7 +29,6 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -39,7 +38,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.archfacts_app_web.R
+import com.example.archfacts_app_web.navigation.AppRoutes
 import com.example.archfacts_app_web.ui.theme.ArchBlue
+import com.example.archfacts_app_web.ui.theme.ArchOrange
 import com.example.archfacts_app_web.ui.theme.Poppins
 
 data class FormInput(
@@ -146,6 +147,7 @@ fun FormContainer(
     inputs: List<FormInput>, shape: Shape = RectangleShape,
     title: String? = null,
     mostrarSeta: Boolean = false,
+    mostrarBotao: Boolean = false,
     cliqueSeta: () -> Unit = {},
 ) {
     Surface(
@@ -194,6 +196,19 @@ fun FormContainer(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
+            if (mostrarBotao) {
+                Row {
+                    CustomButton(
+                        "Cadastrar",
+                        {
+                            println("")
+                        },
+                        165.dp,
+                        35.dp,
+                        ArchBlue,
+                    )
+                }
+            }
         }
     }
 }
@@ -209,5 +224,5 @@ fun FormContainerPreview() {
         FormInput(label = "Senha:", placeholder = "", true)
     )
 
-    FormContainer(inputs = inputs, title = "Cadastro", mostrarSeta = true)
+    FormContainer(inputs = inputs, title = "Cadastro", mostrarSeta = true, mostrarBotao = true)
 }

@@ -12,6 +12,7 @@ import com.example.archfacts_app_web.components.FormContainer
 import com.example.archfacts_app_web.components.FormInput
 import com.example.archfacts_app_web.components.NavbarVariation
 import com.example.archfacts_app_web.navigation.NavActions
+import com.example.archfacts_app_web.screens.home_sections.Footer
 
 @Composable
 fun Register(navActions: NavActions) {
@@ -19,8 +20,8 @@ fun Register(navActions: NavActions) {
         FormInput("Nome:", ""),
         FormInput("Telefone:", ""),
         FormInput("Email:", ""),
-        FormInput("Senha:", ""),
-        FormInput("Confirmação de senha:", ""),
+        FormInput("Senha:", "", true),
+        FormInput("Confirmação de senha:", "", true),
     )
 
     Column(modifier = Modifier.background(Color.White)) {

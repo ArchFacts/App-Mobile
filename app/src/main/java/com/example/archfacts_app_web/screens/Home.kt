@@ -8,6 +8,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.archfacts_app_web.navigation.NavActions
+import com.example.archfacts_app_web.screens.home_sections.ContactSection
+import com.example.archfacts_app_web.screens.home_sections.FooterSection
+import com.example.archfacts_app_web.screens.home_sections.HeroSection
+import com.example.archfacts_app_web.screens.home_sections.ProblemSection
+import com.example.archfacts_app_web.screens.home_sections.RoleSection
+import com.example.archfacts_app_web.screens.home_sections.SolutionSection
 
 @Composable
 fun HomeScreen(navActions: NavActions) {

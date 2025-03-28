@@ -2,6 +2,7 @@ package com.example.archfacts_app_web.navigation
 
 import android.service.credentials.RemoteEntry
 import androidx.navigation.NavBackStackEntry
+import kotlinx.serialization.Serializable
 
 sealed class AppRoutes(
     val route: String,

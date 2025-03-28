@@ -1,4 +1,4 @@
-package com.example.archfacts_app_web.screens
+package com.example.archfacts_app_web.screens.home_sections
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -34,14 +34,18 @@ import com.example.archfacts_app_web.ui.theme.Poppins
 @Composable
 fun Footer() {
     Row(
-        modifier = Modifier.fillMaxWidth(),
-        Arrangement.Center
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(ArchBlack).height(40.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "@2025 ArchFacts all rights reserved.",
+            text = "© 2025 ArchFacts all rights reserved.",
             color = Color.White,
             fontFamily = Poppins,
-            fontWeight = FontWeight.Light
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold
         )
     }
 }
@@ -128,5 +132,5 @@ fun FooterSection() {
 @Preview(showBackground = true)
 @Composable
 fun FooterSectionPreview() {
-    FooterSection()
+    Footer()
 }

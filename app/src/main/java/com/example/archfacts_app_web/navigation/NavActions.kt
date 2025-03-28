@@ -5,7 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.archfacts_app_web.screens.HeroSection
+import com.example.archfacts_app_web.screens.home_sections.HeroSection
 import com.example.archfacts_app_web.screens.Register
 
 @Composable
@@ -20,7 +20,7 @@ class NavActions(private val navController: NavHostController) {
         println("NavController atual: $navController")
 
         try {
-            println("Tentando navegar para: $route.route")
+            println("Tentando navegar para: ${route.route}")
             navController.navigate(route.route) {
             }
         } catch (e: Exception) {
