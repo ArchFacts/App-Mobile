@@ -1,4 +1,4 @@
-package com.example.archfacts_app_web.screens
+package com.example.archfacts_app_web.screens.home_sections
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
