@@ -36,7 +36,7 @@ fun ContactSection() {
             descStyle = DescStyle(fontSize = 16.sp, fontWeight = FontWeight.Normal)
         )
 
-        FormContainer(inputs)
+        FormContainer(inputs, modifier = Modifier)
 
         CustomButton("Enviar", {}, width = 200.dp, 30.dp, ArchBlue, 20.sp)
 

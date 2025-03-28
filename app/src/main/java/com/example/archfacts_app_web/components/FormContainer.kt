@@ -35,6 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.archfacts_app_web.R
@@ -57,7 +58,7 @@ fun FormInputField(label: String, placeholder: String, isPassword: Boolean) {
     var senhaVisivel by remember { mutableStateOf(false) }
 
 
-    Column(modifier = Modifier.padding(10.dp)) {
+    Column(modifier = Modifier.padding(5.dp)) {
         Text(
             text = label,
             color = ArchBlue,
@@ -147,25 +148,27 @@ fun FormContainer(
     inputs: List<FormInput>, shape: Shape = RectangleShape,
     title: String? = null,
     mostrarSeta: Boolean = false,
-    mostrarBotao: Boolean = false,
+    button: @Composable (() -> Unit)? = null,
     cliqueSeta: () -> Unit = {},
+    modifier: Modifier
 ) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(15.dp)
+            .padding(10.dp)
             .shadow(
                 12.dp,
                 RoundedCornerShape(15.dp),
                 clip = true,
-                ambientColor = Color.Black.copy(alpha = 0.25f),
-                spotColor = Color.Black.copy(alpha = 0.25f)
+                ambientColor = Color.Black.copy(alpha = 0.8f),
+                spotColor = Color.Black.copy(alpha = 0.8f)
             ),
         shape = RoundedCornerShape(16.dp),
         color = Color.White,
     ) {
         Column(
-            modifier = Modifier.padding(20.dp),
+            modifier = Modifier
+                .padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
@@ -196,19 +199,7 @@ fun FormContainer(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
-            if (mostrarBotao) {
-                Row {
-                    CustomButton(
-                        "Cadastrar",
-                        {
-                            println("")
-                        },
-                        165.dp,
-                        35.dp,
-                        ArchBlue,
-                    )
-                }
-            }
+            button?.invoke()
         }
     }
 }
@@ -224,5 +215,19 @@ fun FormContainerPreview() {
         FormInput(label = "Senha:", placeholder = "", true)
     )
 
-    FormContainer(inputs = inputs, title = "Cadastro", mostrarSeta = true, mostrarBotao = true)
+    FormContainer(
+        inputs = inputs,
+        title = "Cadastro",
+        button = {
+            CustomButton(
+                text = "Cadastrar",
+                onClick = { },
+                width = 200.dp,
+                height = 35.dp,
+                backgroundColor = ArchBlue,
+            )
+        },
+        mostrarSeta = true,
+        modifier = Modifier
+    )
 }
