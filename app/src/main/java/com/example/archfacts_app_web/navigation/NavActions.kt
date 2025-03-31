@@ -5,8 +5,8 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.archfacts_app_web.screens.RegisterUser
 import com.example.archfacts_app_web.screens.home_sections.HeroSection
-import com.example.archfacts_app_web.screens.Register
 
 @Composable
 fun rememberNavActions(navController: NavHostController): NavActions {
@@ -47,7 +47,7 @@ fun AppNavGraph(navController: NavHostController) {
 
         composable(route = AppRoutes.Registro.route) {
             val actions = rememberNavActions(navController)
-            Register(actions)
+            RegisterUser(actions)
         }
 
         composable(AppRoutes.Perfil.padrao_rota) { input ->
