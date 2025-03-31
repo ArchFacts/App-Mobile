@@ -1,4 +1,4 @@
-package com.example.archfacts_app_web.screens
+package com.example.archfacts_app_web.screens.home_sections
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,16 +17,19 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import com.example.archfacts_app_web.R
 import com.example.archfacts_app_web.components.CustomButton
 import com.example.archfacts_app_web.components.HeroBanner
 import com.example.archfacts_app_web.components.HeroDownBar
 import com.example.archfacts_app_web.components.Navbar
+import com.example.archfacts_app_web.navigation.AppRoutes
+import com.example.archfacts_app_web.navigation.NavActions
 import com.example.archfacts_app_web.ui.theme.ArchFactsAppWebTheme
 import com.example.archfacts_app_web.ui.theme.ArchOrange
 
 @Composable
-fun HeroSection() {
+fun HeroSection(navActions: NavActions) {
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.archfacts),
@@ -40,40 +43,51 @@ fun HeroSection() {
                 .fillMaxSize()
                 .background(Color.Black.copy(alpha = 0.75f))
         )
-    }
 
-    Column() {
-        Navbar()
 
-        Spacer(modifier = Modifier.weight(0.45f))
-
-        HeroBanner(modifier = Modifier.padding(15.dp))
-
-        Row(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 25.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            CustomButton(
-                "Saiba mais",
-                { println("Clicou") },
-                165.dp,
-                35.dp,
-            )
+            Navbar()
 
-            CustomButton(
-                "Cadastre-se",
-                { println("Clicou") },
-                165.dp,
-                35.dp,
-                ArchOrange,
-            )
+            Column(modifier = Modifier.weight(1f)) {
+
+                Spacer(modifier = Modifier.weight(0.5f))
+
+                HeroBanner(modifier = Modifier.padding(15.dp))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 25.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    CustomButton(
+                        "Saiba mais",
+                        { println("Clicou") },
+                        165.dp,
+                        35.dp,
+                    )
+
+                    CustomButton(
+                        "Cadastre-se",
+                        {
+                            println("Navegando para registro com controller: ${navActions}")
+                            navActions.navigate(AppRoutes.Registro)
+                        },
+                        165.dp,
+                        35.dp,
+                        ArchOrange,
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            HeroDownBar()
         }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        HeroDownBar()
     }
 
 }
@@ -82,6 +96,6 @@ fun HeroSection() {
 @Composable
 fun HeroSectionPreview() {
     ArchFactsAppWebTheme {
-        HeroSection()
+        HeroSection(navActions = NavActions(rememberNavController()))
     }
 }

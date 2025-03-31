@@ -44,7 +44,7 @@ fun ServicesCard(imageRes: Int, title: String, description: String, isSelected: 
                 contentDescription = title,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(170.dp),
+                    .height(120.dp),
                 contentScale = ContentScale.Crop
             )
             Spacer(modifier = Modifier.height(8.dp))

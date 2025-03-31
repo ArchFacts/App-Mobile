@@ -24,6 +24,31 @@ import com.example.archfacts_app_web.ui.theme.ArchFactsAppWebTheme
 import com.example.archfacts_app_web.ui.theme.Poppins
 
 @Composable
+fun NavbarVariation() {
+    Row(
+        modifier = Modifier
+            .background(ArchBlack)
+            .fillMaxWidth().padding(horizontal = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        HamburguerMenu()
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        Image(
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = "Logo Principal ArchFacts",
+            modifier = Modifier.size(70.dp)
+        )
+        Image(
+            painter = painterResource(id = R.drawable.logo_af),
+            contentDescription = "Logo com letras 'AF' ArchFacts",
+            modifier = Modifier.size(70.dp),
+        )
+    }
+}
+
+@Composable
 fun Navbar(modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
@@ -35,7 +60,7 @@ fun Navbar(modifier: Modifier = Modifier) {
     ) {
 
 
-        Row (verticalAlignment = Alignment.CenterVertically) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             // Logos
             Image(
                 painter = painterResource(id = R.drawable.logo),
@@ -78,6 +103,6 @@ fun Navbar(modifier: Modifier = Modifier) {
 @Composable
 fun NavbarPreview() {
     ArchFactsAppWebTheme {
-        Navbar()
+        NavbarVariation()
     }
 }

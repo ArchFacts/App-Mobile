@@ -22,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.DrawModifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -36,7 +37,7 @@ import com.example.archfacts_app_web.ui.theme.ArchBlue
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun Slider(images: List<Int>, width: Dp, height: Dp) {
+fun Slider(images: List<Int>, width: Dp, height: Dp, modifier: Modifier = Modifier.fillMaxWidth()) {
     val pagerState = rememberPagerState(0, 0f) { images.size }
     Box(
         modifier = Modifier
