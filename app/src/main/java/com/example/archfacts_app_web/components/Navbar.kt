@@ -32,7 +32,7 @@ import com.example.archfacts_app_web.ui.theme.Poppins
 fun NavbarCorner() {
     Box(
         modifier = Modifier
-            .size(50.dp)
+            .size(56.dp)
             .clip(shape = RoundedCornerShape(bottomEnd = 16.dp))
             .background(ArchBlack),
         contentAlignment = Alignment.Center
