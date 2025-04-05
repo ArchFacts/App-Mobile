@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.archfacts_app_web.components.DetailCard
 import com.example.archfacts_app_web.components.HamburguerMenu
+import com.example.archfacts_app_web.components.InfoCard
 import com.example.archfacts_app_web.components.ProjectTitle
 import com.example.archfacts_app_web.ui.theme.ArchBlack
 import com.example.archfacts_app_web.ui.theme.ArchBlue
@@ -60,6 +61,7 @@ fun ProjectDetails() {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(10.dp)
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -72,5 +74,15 @@ fun ProjectDetails() {
                 modifier = Modifier.size(40.dp)
             )
         }
-        }
+        Spacer(modifier = Modifier
+            .padding(10.dp))
+        InfoCard(
+            text = "Chamados:",
+            qtd = 33,
+            qtdProgresso = 16,
+            qtdFechado = 16,
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+        )
+    }
     }
