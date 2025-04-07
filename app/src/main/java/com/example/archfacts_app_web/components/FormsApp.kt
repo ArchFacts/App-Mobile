@@ -23,8 +23,11 @@ import androidx.compose.ui.unit.sp
 import com.example.archfacts_app_web.ui.theme.ArchBlue
 import com.example.archfacts_app_web.ui.theme.Poppins
 
-data class FormData(val label: String, val value: String)
-
+data class FormItem(
+    val label: String,
+    val value: String,
+    val editavel: Boolean,
+)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,7 +42,7 @@ fun FormLine(
             text = label,
             fontWeight = FontWeight.SemiBold,
             fontFamily = Poppins,
-            fontSize = 16.sp,
+            fontSize = 24.sp,
             color = ArchBlue
         )
 
@@ -80,8 +83,7 @@ fun FormLine(
                     text = value,
                     fontWeight = FontWeight.SemiBold,
                     fontFamily = Poppins,
-                    fontSize = 16.sp,
-
+                    fontSize = 24.sp,
                 )
             }
         }
@@ -89,12 +91,26 @@ fun FormLine(
 }
 
 @Composable
-fun FormsApp(modifier: Modifier = Modifier) {
-
+fun FormsApp(items: List<FormItem>) {
+    Column {
+        items.forEach { item ->
+            FormLine(label = item.label, value = item.value, editavel = item.editavel)
+        }
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun FormsAppPreview() {
-    FormLine("BANANA", "Testing", false)
+    val formItems = listOf(
+        FormItem("E-mail do solicitante", "julia@gmail.com", false),
+        FormItem("Serviços Escolhidos:", "Carros Estéticos, Carros econômicos", false),
+        FormItem("Data de entrega do projeto:", "07/03/2026", false),
+        FormItem(
+            "Descrição adicional:",
+            "O carro estético deve ter um sistema de iluminação LED diferenciado.",
+            false
+        )
+    )
+    FormsApp(formItems)
 }
