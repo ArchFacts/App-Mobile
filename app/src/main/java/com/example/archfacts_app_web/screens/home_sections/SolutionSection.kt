@@ -16,7 +16,7 @@ import com.example.archfacts_app_web.components.TitleDescContainer
 
 @Composable
 fun SolutionSection() {
-    Box() {
+    Box {
         val images = listOf(
             R.drawable.big_carousel1,
             R.drawable.aperto_mao,
