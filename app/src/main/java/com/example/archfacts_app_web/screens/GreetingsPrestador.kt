@@ -48,20 +48,22 @@ import com.example.archfacts_app_web.ui.theme.ArchBlue
 import com.example.archfacts_app_web.ui.theme.ArchOrange
 import com.example.archfacts_app_web.ui.theme.Poppins
 
-data class PrestadorItems(val solicitante: String, val servicosEscolhidos: String)
+data class PropostaItems(val solicitante: String, val servicosEscolhidos: String)
 
 @Composable
-fun Propostas() {
+fun Proposta(propostaItems: PropostaItems) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp)
             .shadow(
-                12.dp,
+                3.dp,
                 clip = true,
                 ambientColor = Color.Black.copy(alpha = 0.8f),
-                spotColor = Color.Black.copy(alpha = 0.8f)
-            ),
+                spotColor = Color.Black.copy(alpha = 0.8f),
+                shape = RoundedCornerShape(8.dp)
+            )
+            .clip(RoundedCornerShape(8.dp)),
         color = Color.White,
     ) {
         Row(
@@ -69,7 +71,9 @@ fun Propostas() {
             modifier = Modifier.height(100.dp)
         ) {
             Column(
-                modifier = Modifier.fillMaxHeight().padding(horizontal = 25.dp),
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(horizontal = 25.dp),
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 Text(text = buildAnnotatedString {
@@ -83,7 +87,7 @@ fun Propostas() {
                     ) {
                         append("Solicitante: ")
                     }
-                    append("Júlia Campioto")
+                    append(propostaItems.solicitante)
                 })
                 Column {
                     Text(
@@ -94,7 +98,7 @@ fun Propostas() {
                         color = ArchBlue,
                         textAlign = TextAlign.Center,
                     )
-                    Text(text = "Carros estéticos, Carros esportivos")
+                    Text(text = propostaItems.servicosEscolhidos)
                 }
             }
             Column(
@@ -116,6 +120,13 @@ fun Propostas() {
 
 @Composable
 fun GreetingsPrestador() {
+    val propostas = listOf(
+        PropostaItems("Júlia Campioto", "Carros estéticos, Carros esportivos"),
+        PropostaItems("Júlia Campioto", "Carros estéticos, Carros esportivos"),
+        PropostaItems("Júlia Campioto", "Carros estéticos, Carros esportivos"),
+        PropostaItems("Júlia Campioto", "Carros estéticos, Carros esportivos"),
+        PropostaItems("Júlia Campioto", "Carros estéticos, Carros esportivos"),
+    )
     Scaffold(topBar = {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -127,7 +138,7 @@ fun GreetingsPrestador() {
             Text(
                 text = "Seja bem-vindo!",
                 fontFamily = Poppins,
-                fontSize = 32.sp,
+                fontSize = 24.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = ArchBlue,
                 textAlign = TextAlign.Center,
@@ -149,13 +160,14 @@ fun GreetingsPrestador() {
             ) {
                 ProfilePicture(
                     painterResource(R.drawable.ecorp_logo),
-                    150,
+                    133,
                     modifier = Modifier
                 )
 
                 Spacer(modifier = Modifier.size(12.dp))
 
                 Box(
+                    contentAlignment = Alignment.CenterStart,
                     modifier = Modifier
                         .fillMaxHeight()
                         .height(IntrinsicSize.Min)
@@ -196,7 +208,6 @@ fun GreetingsPrestador() {
                     .padding(10.dp)
                     .shadow(
                         12.dp,
-                        RoundedCornerShape(15.dp),
                         clip = true,
                         ambientColor = Color.Black.copy(alpha = 0.8f),
                         spotColor = Color.Black.copy(alpha = 0.8f)
@@ -204,21 +215,26 @@ fun GreetingsPrestador() {
                 shape = RoundedCornerShape(16.dp),
                 color = Color.White,
             ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(ArchBlack)
-                ) {
+                Column {
+
                     Text(
                         text = "Propostas Abertas",
                         fontFamily = Poppins,
                         fontSize = 24.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = Color.White,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .background(ArchBlack)
+                            .fillMaxWidth()
                     )
-                }
-                LazyColumn {
 
+                    LazyColumn(modifier = Modifier.padding(horizontal = 10.dp)) {
+                        items(propostas) { proposta ->
+                            Proposta(proposta)
+                            Spacer(modifier = Modifier.height(10.dp))
+                        }
+                    }
                 }
             }
         }
@@ -231,5 +247,5 @@ fun GreetingsPrestador() {
 @Preview
 @Composable
 fun GreetingsPrestadorPreview() {
-    Propostas()
+    GreetingsPrestador()
 }
