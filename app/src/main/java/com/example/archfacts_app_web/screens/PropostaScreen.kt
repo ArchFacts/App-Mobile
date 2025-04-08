@@ -85,7 +85,7 @@ fun PropostaScreen(modifier: Modifier = Modifier) {
             }
         }
     }, bottomBar = {
-
+        
     })
 }
 
