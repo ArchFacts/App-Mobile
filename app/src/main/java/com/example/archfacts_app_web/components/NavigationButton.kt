@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -41,11 +42,10 @@ fun NavigationButton(
 ) {
     Row(
         modifier = modifier
-            .clip(RoundedCornerShape(50))
-            .background(Color.White)
-            .border(1.dp, Color.LightGray, RoundedCornerShape(50))
-            .clickable { onClick() }
-            .padding(4.dp),
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .shadow(6.dp, RoundedCornerShape(16.dp))
+            .background(Color.White, RoundedCornerShape(16.dp)),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
@@ -65,8 +65,8 @@ fun NavigationButton(
 
         Box(
             modifier = Modifier
-                .height(48.dp)
-                .width(48.dp)
+                .height(58.dp)
+                .width(38.dp)
                 .clip(RoundedCornerShape(topEnd = 50.dp, bottomEnd = 50.dp))
                 .background(ArchBlue),
             contentAlignment = Alignment.Center
@@ -75,7 +75,7 @@ fun NavigationButton(
                 imageVector = Icons.Default.PlayArrow,
                 contentDescription = null,
                 tint = Color.White,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(40.dp)
             )
         }
     }
@@ -84,5 +84,16 @@ fun NavigationButton(
 @Preview(showBackground = true)
 @Composable
 fun PreviewNavigationButton() {
-    NavigationButton(text = "Ir para chamados", onClick = { })
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        NavigationButton(
+            text = "Ir para chamados",
+            modifier = Modifier.fillMaxWidth(0.9f),
+            onClick = { }
+        )
+    }
 }
