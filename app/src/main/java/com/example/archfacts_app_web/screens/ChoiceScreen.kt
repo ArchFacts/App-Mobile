@@ -42,8 +42,8 @@ fun ChoiceScreen(modifier: Modifier = Modifier) {
                 .background(
                     color = ArchBlack,
                     shape = RoundedCornerShape(
-                        bottomStart = 165.dp,
-                        bottomEnd = 165.dp,
+                        bottomStart = 100.dp,
+                        bottomEnd = 100.dp,
                     )
                 )
                 .fillMaxWidth()
@@ -82,14 +82,14 @@ fun ChoiceScreen(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.White),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.SpaceEvenly
         ) {
             Text(
                 "O que você quer ver?",
                 fontWeight = FontWeight.Normal,
                 color = Color.Black,
                 textAlign = TextAlign.Center,
+                fontFamily = Poppins,
                 fontSize = 32.sp,
                 modifier = Modifier.fillMaxWidth()
             )

@@ -61,7 +61,7 @@ fun ChoiceCard(type: CardType, number: Int) {
                     is CardType.Tarefas -> "Icone de tarefas"
                 },
                 tint = type.iconColor,
-                modifier = Modifier.size(88.dp),
+                modifier = Modifier.size(100.dp),
             )
             Text(
                 text = when (type) {
@@ -70,14 +70,14 @@ fun ChoiceCard(type: CardType, number: Int) {
                 },
                 fontFamily = Poppins,
                 fontWeight = FontWeight.Normal,
-                fontSize = 16.sp,
+                fontSize = 24.sp,
                 color = Color.White
             )
             Text(
                 text = number.toString(),
                 fontFamily = Poppins,
                 fontWeight = FontWeight.SemiBold,
-                fontSize = 24.sp,
+                fontSize = 32.sp,
                 color = Color.White
             )
         }
