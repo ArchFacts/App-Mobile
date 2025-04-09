@@ -66,6 +66,8 @@ dependencies {
     implementation(libs.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
 
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
+
     // Implementação para fazer os dots do slider
 //    implementation(libs.accompanist.pager.indicators)
 }
