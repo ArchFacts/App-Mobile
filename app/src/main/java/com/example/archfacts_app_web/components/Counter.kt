@@ -19,20 +19,20 @@ import com.example.archfacts_app_web.ui.theme.ArchOrange
 import com.example.archfacts_app_web.ui.theme.Poppins
 
 @Composable
-fun Counter(count: Int, bgColor: Color) {
+fun Counter(count: Int, bgColor: Color, modifier: Modifier = Modifier) {
     Box(
         modifier = Modifier
             .size(64.dp)
             .clip(CircleShape)
             .background(bgColor)
-            .padding(16.dp)
+            .padding(8.dp)
             .wrapContentSize()
     ) {
         Text(
             text = count.toString(),
             fontFamily = Poppins,
             fontWeight = FontWeight.Normal,
-            fontSize = 24.sp,
+            fontSize = 32.sp,
             color = Color.White
         )
     }
