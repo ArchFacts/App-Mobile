@@ -9,11 +9,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.archfacts_app_web.components.EnterpriseCard
 import com.example.archfacts_app_web.components.HamburguerMenu
+import com.example.archfacts_app_web.ui.theme.ArchBlue
 import com.example.archfacts_app_web.ui.theme.ArchFactsAppWebTheme
 import com.example.archfacts_app_web.ui.theme.Poppins
 
@@ -21,18 +23,20 @@ import com.example.archfacts_app_web.ui.theme.Poppins
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PartnerCompaniesScreen() {
-    var searchQuery by remember { mutableStateOf("") } // Estado para a barra de pesquisa
+    var searchQuery by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(
-                    text = "Empresas Parceiras",
-                    fontFamily = Poppins,
-                    fontWeight = FontWeight.Normal,
-                    color = Color(0xFF033E8C)
+                title = {
+                    Text(
+                        text = "Empresas Parceiras",
+                        fontFamily = Poppins,
+                        fontWeight = FontWeight.Normal,
+                        color = Color(0xFF033E8C)
 
-                ) },
+                    )
+                },
                 navigationIcon = {
                     HamburguerMenu(
                         modifier = Modifier.padding(12.dp)
@@ -111,21 +115,21 @@ fun SearchBar(
         value = query,
         onValueChange = onQueryChange,
         leadingIcon = {
-            Icon(Icons.Default.Search, contentDescription = "Ícone de pesquisa")
+            Icon(Icons.Default.Search, contentDescription = "Ícone de pesquisa", tint = ArchBlue)
         },
         placeholder = {
-            Text("Pesquisar...")
+            Text("Pesquisar...", color = ArchBlue)
         },
         modifier = modifier
             .fillMaxWidth()
             .height(56.dp),
         shape = MaterialTheme.shapes.medium,
         colors = TextFieldDefaults.textFieldColors(
-            containerColor = Color(0xFFF5F5F5), // Fundo levemente cinza
-            focusedIndicatorColor = Color.Gray, // Linha na parte de baixo quando focado
-            unfocusedIndicatorColor = Color.LightGray, // Linha na parte de baixo quando não focado
-            focusedTextColor = Color.Black, // Cor do texto quando focado
-            unfocusedTextColor = Color.Black // Cor do texto quando não focado
+            containerColor = Color.Transparent,
+            focusedIndicatorColor = ArchBlue,
+            unfocusedIndicatorColor = ArchBlue,
+            focusedTextColor = Color.Black,
+            unfocusedTextColor = Color.Black
         ),
         singleLine = true
     )
