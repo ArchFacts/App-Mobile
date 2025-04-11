@@ -34,13 +34,13 @@ import com.example.archfacts_app_web.ui.theme.ArchBlue
 
 @Preview
 @Composable
-fun ProjectDetails() {
+fun ProjectDetailsPrestador() {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-            HamburguerMenu(modifier = Modifier)
+        HamburguerMenu(modifier = Modifier)
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -62,6 +62,7 @@ fun ProjectDetails() {
                 .padding(horizontal = 16.dp)
                 .shadow(6.dp, RoundedCornerShape(16.dp))
                 .background(Color.White, RoundedCornerShape(16.dp)),
+                    cardType = DetailCardType.SemBotao
         )
         Spacer(modifier = Modifier
             .padding(10.dp))
@@ -73,7 +74,7 @@ fun ProjectDetails() {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ProjectTitle(title = "Chamados Info", color = ArchBlack, modifier = Modifier)
+            ProjectTitle(title = "Tarefas Info", color = ArchBlack, modifier = Modifier)
             Icon(
                 imageVector = Icons.Filled.Person,
                 contentDescription = "Usuário",
@@ -103,11 +104,11 @@ fun ProjectDetails() {
             contentAlignment = Alignment.Center
         ) {
             NavigationButton(
-                text = "Ir para chamados",
+                text = "Ir para tarefas",
                 modifier = Modifier,
                 onClick = { }
             )
         }
 
     }
-    }
+}
