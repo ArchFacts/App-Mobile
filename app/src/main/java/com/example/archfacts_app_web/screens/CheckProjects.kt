@@ -6,7 +6,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,7 +22,7 @@ import com.example.archfacts_app_web.ui.theme.Poppins
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PartnerCompaniesScreen() {
+fun CheckProjectsScreen() {
     Scaffold(
         topBar = {
             Row(
@@ -34,7 +34,7 @@ fun PartnerCompaniesScreen() {
                 NavbarCorner()
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
-                    text = "Empresas Parceiras",
+                    text = "Projetos em Análise",
                     fontFamily = Poppins,
                     fontWeight = FontWeight.Bold,
                     fontSize = 26.sp,
@@ -47,8 +47,8 @@ fun PartnerCompaniesScreen() {
             Column(
                 modifier = Modifier
                     .padding(top = paddingValues.calculateTopPadding() + 15.dp)
-                    .height(900.dp)
                     .verticalScroll(rememberScrollState())
+                    .fillMaxHeight()
             ) {
                 TextField(
                     value = "",
@@ -77,37 +77,37 @@ fun PartnerCompaniesScreen() {
                 Spacer(modifier = Modifier.height(20.dp))
 
                 EnterpriseCard(
-                    companyName = "Google",
+                    companyName = "Projeto Aurora",
                     cardHeight = 120.dp,
-                    registrationDate = "01/09/2001",
+                    registrationDate = "01/09/2023",
                     companyImage = R.drawable.google3
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 EnterpriseCard(
-                    companyName = "Microsoft",
+                    companyName = "Projeto Atlas",
                     cardHeight = 120.dp,
-                    registrationDate = "15/06/2015",
+                    registrationDate = "15/06/2023",
                     companyImage = R.drawable.microsoft
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 EnterpriseCard(
-                    companyName = "Shell",
+                    companyName = "Projeto Helix",
                     cardHeight = 120.dp,
-                    registrationDate = "22/04/2008",
+                    registrationDate = "22/04/2022",
                     companyImage = R.drawable.shell
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 EnterpriseCard(
-                    companyName = "VolksWagen",
+                    companyName = "Projeto Neon",
                     cardHeight = 120.dp,
-                    registrationDate = "24/11/2004",
+                    registrationDate = "24/11/2021",
                     companyImage = R.drawable.volks
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 EnterpriseCard(
-                    companyName = "ECORP",
+                    companyName = "Projeto Eon",
                     cardHeight = 120.dp,
-                    registrationDate = "11/10/2019"
+                    registrationDate = "11/10/2020"
                 )
                 Spacer(modifier = Modifier.height(16.dp))
             }
@@ -117,8 +117,8 @@ fun PartnerCompaniesScreen() {
 
 @Preview(showBackground = false)
 @Composable
-fun PartnerCompaniesPreview() {
+fun CheckProjectsPreview() {
     ArchFactsAppWebTheme {
-        PartnerCompaniesScreen()
+        CheckProjectsScreen()
     }
 }
