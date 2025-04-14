@@ -280,7 +280,7 @@ fun RequestsScreen(modifier: Modifier = Modifier, type: CardType) {
                         }
                     }
                 }
-                Row(modifier = Modifier.padding(16.dp)) {
+                Row {
                     NavigationBar("Ir para projetos", color)
                 }
             }

@@ -38,6 +38,7 @@ import com.example.archfacts_app_web.components.NavigationBar
 import com.example.archfacts_app_web.enums.RequestEnum
 import com.example.archfacts_app_web.ui.theme.ArchBlack
 import com.example.archfacts_app_web.ui.theme.ArchBlue
+import com.example.archfacts_app_web.ui.theme.ArchOrange
 import com.example.archfacts_app_web.ui.theme.Poppins
 
 data class RequestDetailsData(
@@ -86,6 +87,7 @@ val dados = RequestDetailsData(
 
 @Composable
 fun RequestDetailsBox(requestDetails: RequestDetailsData = dados, modifier: Modifier = Modifier) {
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -117,11 +119,11 @@ fun RequestDetailsBox(requestDetails: RequestDetailsData = dados, modifier: Modi
                     text = dados.requestData.title,
                     fontSize = 32.sp,
                     fontWeight = FontWeight.Bold,
-                    color = ArchBlue,
+                    color = dados.requestData.type.backgroundColor,
                     fontFamily = Poppins
                 )
                 Icon(
-                    painter = painterResource(id = R.drawable.person),
+                    painter = painterResource(id = dados.requestData.type.iconRes),
                     contentDescription = "Icone de chamado",
                     tint = dados.requestData.type.backgroundColor,
                     modifier = Modifier.size(42.dp)
@@ -138,19 +140,14 @@ fun RequestDetailsBox(requestDetails: RequestDetailsData = dados, modifier: Modi
                     text = dados.requestData.project,
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
-                    color = ArchBlue,
+                    color = dados.requestData.type.backgroundColor,
                     fontFamily = Poppins
                 )
 
                 Spacer(Modifier.width(10.dp))
 
                 Icon(
-                    painter = painterResource(
-                        id = when (dados.requestData.type) {
-                            CardType.Chamados -> R.drawable.pasta
-                            CardType.Tarefas -> R.drawable.clipboard
-                        }
-                    ),
+                    painter = painterResource(id = R.drawable.pasta),
                     contentDescription = "Icone de chamado",
                     tint = dados.requestData.type.backgroundColor,
                     modifier = Modifier
@@ -182,7 +179,7 @@ fun RequestDetailsBox(requestDetails: RequestDetailsData = dados, modifier: Modi
 
             }
 
-            Column(modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Center) {
                 DateLine(dados.dateStart)
                 DateLine(dados.requestData.dateEnd)
             }
@@ -199,9 +196,19 @@ fun RequestDetailsBox(requestDetails: RequestDetailsData = dados, modifier: Modi
                     text = dados.desc,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Light,
-                    color = ArchBlue,
+                    color = dados.requestData.type.backgroundColor,
                     fontFamily = Poppins
                 )
+
+                if (dados.requestData.type == CardType.Tarefas) {
+                    CustomButton(
+                        "Finalizar",
+                        onClick = {},
+                        backgroundColor = ArchOrange,
+                        width = 200.dp,
+                        height = 32.dp
+                    )
+                }
             }
         }
     }
@@ -235,10 +242,13 @@ fun PriceBox() {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    "Preço: ",
+                    when (dados.requestData.type) {
+                        CardType.Chamados -> "Preço:"
+                        CardType.Tarefas -> "Despesa:"
+                    },
                     fontSize = 36.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = ArchBlue,
+                    color = dados.requestData.type.backgroundColor,
                     fontFamily = Poppins,
                     textAlign = TextAlign.Center,
                 )
@@ -258,7 +268,7 @@ fun PriceBox() {
 }
 
 @Composable
-fun RequestDetails(modifier: Modifier = Modifier) {
+fun RequestDetails() {
     Scaffold(
         topBar = {
             Row(
@@ -270,7 +280,10 @@ fun RequestDetails(modifier: Modifier = Modifier) {
 
                 Row(modifier = Modifier.padding(8.dp)) {
                     Text(
-                        "Chamados ${dados.prestadorName}",
+                        when (dados.requestData.type) {
+                            CardType.Chamados -> "Chamados ${dados.prestadorName}"
+                            CardType.Tarefas -> "Tarefas ${dados.prestadorName}"
+                        },
                         fontSize = 28.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = ArchBlue,
@@ -306,7 +319,7 @@ fun RequestDetails(modifier: Modifier = Modifier) {
                     )
 
                     Icon(
-                        painter = painterResource(id = R.drawable.person),
+                        painter = painterResource(id = dados.requestData.type.iconRes),
                         contentDescription = "Icone de chamado",
                         tint = dados.requestData.type.backgroundColor,
                         modifier = Modifier.size(42.dp)
