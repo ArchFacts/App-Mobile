@@ -1,11 +1,13 @@
 package com.example.archfacts_app_web.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -30,8 +32,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.archfacts_app_web.R
 import com.example.archfacts_app_web.components.CardType
-import com.example.archfacts_app_web.components.Counter
+import com.example.archfacts_app_web.components.CustomButton
 import com.example.archfacts_app_web.components.NavbarCorner
+import com.example.archfacts_app_web.components.NavigationBar
 import com.example.archfacts_app_web.enums.RequestEnum
 import com.example.archfacts_app_web.ui.theme.ArchBlack
 import com.example.archfacts_app_web.ui.theme.ArchBlue
@@ -86,6 +89,7 @@ fun RequestDetailsBox(requestDetails: RequestDetailsData = dados, modifier: Modi
     Surface(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(16.dp)
             .shadow(
                 3.dp,
                 clip = true,
@@ -93,14 +97,14 @@ fun RequestDetailsBox(requestDetails: RequestDetailsData = dados, modifier: Modi
                 spotColor = Color.Black.copy(alpha = 0.8f),
                 shape = RoundedCornerShape(8.dp)
             )
-            .clip(RoundedCornerShape(8.dp))
-            .padding(16.dp),
+            .clip(RoundedCornerShape(8.dp)),
         color = Color.White,
     ) {
         Column(
             verticalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier
-                .height(350.dp)
+                .height(375.dp)
+                .padding(10.dp)
         ) {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -127,11 +131,12 @@ fun RequestDetailsBox(requestDetails: RequestDetailsData = dados, modifier: Modi
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 5.dp)
+                    .padding(horizontal = 5.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = dados.requestData.project,
-                    fontSize = 18.sp,
+                    fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
                     color = ArchBlue,
                     fontFamily = Poppins
@@ -205,7 +210,51 @@ fun RequestDetailsBox(requestDetails: RequestDetailsData = dados, modifier: Modi
 
 @Composable
 fun PriceBox() {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .shadow(
+                3.dp,
+                clip = true,
+                ambientColor = Color.Black.copy(alpha = 0.8f),
+                spotColor = Color.Black.copy(alpha = 0.8f),
+                shape = RoundedCornerShape(8.dp)
+            )
+            .clip(RoundedCornerShape(8.dp)),
+        color = Color.White,
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    "Preço: ",
+                    fontSize = 36.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = ArchBlue,
+                    fontFamily = Poppins,
+                    textAlign = TextAlign.Center,
+                )
+                Icon(
+                    painter = painterResource(id = R.drawable.sign),
+                    contentDescription = "Icone de chamado",
+                    tint = dados.requestData.type.backgroundColor,
+                    modifier = Modifier.size(48.dp)
+                )
+            }
 
+            Spacer(Modifier.height(16.dp))
+
+            CustomButton("Definir Custo", onClick = {}, 250.dp, 35.dp, fontSize = 24.sp)
+        }
+    }
 }
 
 @Composable
@@ -234,8 +283,10 @@ fun RequestDetails(modifier: Modifier = Modifier) {
         },
         content = { innerPadding ->
             Column(
+                verticalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier
                     .padding(innerPadding)
+                    .fillMaxSize()
             ) {
                 RequestDetailsBox(modifier = Modifier.padding(5.dp))
 
@@ -260,8 +311,10 @@ fun RequestDetails(modifier: Modifier = Modifier) {
                         tint = dados.requestData.type.backgroundColor,
                         modifier = Modifier.size(42.dp)
                     )
-
                 }
+                PriceBox()
+
+                NavigationBar("Ir para chamados", CardType.Chamados.backgroundColor)
             }
         },
         bottomBar = {
