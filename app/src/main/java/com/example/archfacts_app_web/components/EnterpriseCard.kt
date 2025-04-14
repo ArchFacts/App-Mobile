@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -36,28 +37,30 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun EnterpriseCard(
-    companyName: String = "ECORP", // Nome da empresa (valor padrão: "ECORP")
-    cardWidth: Dp = Dp.Unspecified, // Largura do card (valor padrão: não especificado)
-    cardHeight: Dp = 120.dp, // Altura do card (valor padrão: 120.dp)
-    companyImage: Int = R.drawable.ecorp_logo, // Imagem da empresa (valor padrão: ecorp_logo)
-    registrationDate: String = "07/03/2005" // Data de registro (valor padrão: "07/03/2005")
+    companyName: String = "ECORP",
+    cardWidth: Dp = Dp.Unspecified,
+    cardHeight: Dp = 120.dp,
+    companyImage: Int = R.drawable.ecorp_logo,
+    registrationDate: String = "07/03/2005"
 ) {
     var arrowColor = Color(0xFF033E8C)
     var isStarMarked by remember { mutableStateOf(true) }
 
     Card(
         modifier = Modifier
-            .fillMaxWidth() // Largura máxima
-            .height(cardHeight) // Altura personalizada
-            .width(cardWidth) // Largura personalizada
+            .fillMaxWidth()
+            .height(cardHeight)
+            .width(cardWidth)
             .padding(10.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.White)
         ) {
             Image(
-                painter = painterResource(id = companyImage), // Imagem da empresa (parâmetro)
+                painter = painterResource(id = companyImage),
                 contentDescription = "$companyName Logo",
                 modifier = Modifier
                     .size(110.dp)
@@ -69,63 +72,65 @@ fun EnterpriseCard(
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(start = 16.dp))
-             {
-            Text(
-                text = companyName, // Nome da empresa (parâmetro)
-                style = MaterialTheme.typography.headlineLarge.copy(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp,
-                    color = Color.Black,
-                    fontFamily = Poppins
-                )
+                    .padding(start = 16.dp)
             )
-            Text(
-                text = "Data de Registro:",
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    fontSize = 14.sp,
-                    color = Color.Black,
-                    fontFamily = Poppins
-                ),
-            )
-            Text(
-                text = registrationDate, // Data de registro (parâmetro)
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    fontSize = 16.sp,
-                    color = Color.Black,
-                    fontFamily = Poppins
-                ),
-            )
-            Row(
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                repeat(5) { index ->
-                    StarComponent(
-                        isMarked = true,
-                        onToggle = { isStarMarked = !isStarMarked }
+            {
+                Text(
+                    text = companyName, // Nome da empresa (parâmetro)
+                    style = MaterialTheme.typography.headlineLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 24.sp,
+                        color = Color.Black,
+                        fontFamily = Poppins
                     )
-                    if (index < 4) {
-                        Spacer(modifier = Modifier.width(4.dp)) // Espaço entre as estrelas
+                )
+                Text(
+                    text = "Data de Registro:",
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontSize = 14.sp,
+                        color = Color.Black,
+                        fontFamily = Poppins
+                    ),
+                )
+                Text(
+                    text = registrationDate, // Data de registro (parâmetro)
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontSize = 16.sp,
+                        color = Color.Black,
+                        fontFamily = Poppins
+                    ),
+                )
+                Row(
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    repeat(5) { index ->
+                        StarComponent(
+                            isMarked = true,
+                            onToggle = { isStarMarked = !isStarMarked }
+                        )
+                        if (index < 4) {
+                            Spacer(modifier = Modifier.width(4.dp)) // Espaço entre as estrelas
+                        }
                     }
                 }
             }
-        }
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
                     .background(arrowColor)
                     .width(42.dp)
                     .padding(2.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
-            Icon(
-                imageVector = Icons.Default.ArrowForward,
-                contentDescription = "Ícone de seta",
-                tint = Color.White
-            )
-        }
+                Icon(
+                    imageVector = Icons.Filled.PlayArrow,
+                    contentDescription = "Ícone de seta",
+                    tint = Color.White,
+                    modifier = Modifier.size(48.dp)
+                )
+            }
         }
     }
 }
