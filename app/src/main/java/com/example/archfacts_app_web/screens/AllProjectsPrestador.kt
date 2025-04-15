@@ -5,15 +5,12 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -30,35 +27,46 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.archfacts_app_web.components.DetailCard
 import com.example.archfacts_app_web.components.HamburguerMenu
 import com.example.archfacts_app_web.components.ProjectTitle
-import com.example.archfacts_app_web.components.SearchBar
 import com.example.archfacts_app_web.ui.theme.ArchBlack
 import com.example.archfacts_app_web.ui.theme.ArchBlue
+import java.text.Normalizer
+import java.util.Locale
 
-data class ProjectPrestador(val name: String)
+data class Project(
+    val name: String,
+    val solicitante: String
+)
+
+fun String.normalize(): String {
+    return Normalizer.normalize(this, Normalizer.Form.NFD)
+        .replace("[\\p{InCombiningDiacriticalMarks}]".toRegex(), "")
+        .lowercase(Locale.getDefault())
+}
 
 @Preview
 @Composable
-fun AllProjects() {
+fun AllProjectsPrestador() {
     val query = remember { mutableStateOf("") }
 
     val allProjects = remember{
         mutableStateOf(listOf(
-            ProjectPrestador("Projeto de Abelhas"),
-            ProjectPrestador("Projeto de Bananas"),
-            ProjectPrestador("Projeto de Madeiras"),
-            ProjectPrestador("Projeto de Cozinhas"),
-            ProjectPrestador("Projeto de Celulares")
+            Project("Projeto de Abelhas", "Júlia Campioto"),
+            Project("Projeto de Bananas", "Luis Almeida"),
+            Project("Projeto de Madeiras", "Diego Campos"),
+            Project("Projeto de Cozinhas", "Giovane Kenuy"),
+            Project("Projeto de Celulares", "Gustavo Cruz")
         ))
     }
 
     val filteredProjects = allProjects.value.filter {
-        it.name.contains(query.value, ignoreCase = true)
+        it.name.normalize().contains(query.value.normalize()) ||
+                it.solicitante.normalize().contains(query.value.normalize())
     }
 
     Column(
@@ -87,7 +95,7 @@ fun AllProjects() {
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            SearchBar(
+            SearchBarPrest(
                 query = query.value,
                 onQueryChange = { query.value = it },
                 onSearch = {},
@@ -127,14 +135,27 @@ fun AllProjects() {
                                         .border(2.dp, ArchBlack, shape = RoundedCornerShape(12.dp))
                                         .padding(12.dp)
                                         .fillMaxWidth(0.98f)
-                                        .height(50.dp)
+                                        .height(55.dp)
                                 ) {
-                                    ProjectTitle(
-                                        title = project.name,
-                                        color = Color.White,
-                                        fontSize = 32.sp,
+                                    Column(
                                         modifier = Modifier.align(Alignment.Center)
-                                    )
+                                    ) {
+                                        Text(
+                                            text = project.name,
+                                            fontSize = 24.sp,
+                                            color = Color.White,
+                                            fontWeight = FontWeight.Medium,
+                                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                                        )
+                                        Text(
+                                            text = "Solicitante: ${project.solicitante}",
+                                            fontSize = 24.sp,
+                                            color = Color.White,
+                                            fontWeight = FontWeight.Medium,
+                                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                                        )
+                                    }
+
                                 }
                             }
                         }
@@ -154,7 +175,7 @@ fun AllProjects() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchBar(
+fun SearchBarPrest(
     query: String,
     onQueryChange: (String) -> Unit,
     onSearch: () -> Unit,
@@ -181,4 +202,4 @@ fun SearchBar(
         ),
         singleLine = true
     )
-    }
+}

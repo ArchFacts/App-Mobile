@@ -16,6 +16,14 @@ import com.example.archfacts_app_web.ui.theme.ArchBlue
 import com.example.archfacts_app_web.ui.theme.Poppins
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
+import com.example.archfacts_app_web.ui.theme.ArchOrange
+
+sealed class InfoCardStyle(val backgroundColor: Color) {
+    data object Azul : InfoCardStyle(ArchBlue)
+    data object Laranja : InfoCardStyle(ArchOrange)
+    data class Custom(val color: Color) : InfoCardStyle(color)
+}
+
 
 @Composable
 fun InfoCard(
@@ -23,7 +31,8 @@ fun InfoCard(
     qtd: Int,
     qtdProgresso: Int,
     qtdFechado: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    style: InfoCardStyle = InfoCardStyle.Azul
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -37,7 +46,7 @@ fun InfoCard(
             modifier = Modifier
                 .weight(1f)
                 .clip(RoundedCornerShape(16.dp))
-                .background(ArchBlue)
+                .background(style.backgroundColor)
                 .padding(16.dp)
         ) {
             Column {
@@ -65,7 +74,7 @@ fun InfoCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(16.dp))
-                    .background(ArchBlue)
+                    .background(style.backgroundColor)
                     .padding(16.dp)
             ) {
                 Column {
@@ -92,7 +101,7 @@ fun InfoCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(16.dp))
-                    .background(ArchBlue)
+                    .background(style.backgroundColor)
                     .padding(16.dp)
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -124,6 +133,6 @@ fun PreviewInfoCard() {
         text = "Chamados:",
         qtd = 33,
         qtdProgresso = 16,
-        qtdFechado = 16
+        qtdFechado = 16,
     )
 }
