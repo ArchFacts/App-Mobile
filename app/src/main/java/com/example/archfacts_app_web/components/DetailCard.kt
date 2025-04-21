@@ -93,8 +93,6 @@ fun DetailCard(
             )
         }
 
-//        Spacer(modifier = Modifier.padding(2.dp))
-
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(10.dp)

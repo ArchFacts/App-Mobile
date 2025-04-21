@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ContentPaste
+import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -69,8 +70,11 @@ fun ProjectDetailsChamados() {
                 .padding(horizontal = 16.dp)
                 .shadow(6.dp, RoundedCornerShape(16.dp))
                 .background(Color.White, RoundedCornerShape(16.dp)),
-//            cardType = DetailCardType.SemBotao
-        )
+            cardType = DetailCardType.Custom(
+                customIcon = Icons.Filled.Folder,
+                customColor = ArchBlue,
+                customShowButton = false
+        ))
         Spacer(modifier = Modifier
             .padding(10.dp))
         Row(
@@ -84,8 +88,8 @@ fun ProjectDetailsChamados() {
             ProjectTitle(title = "Chamados Info", color = ArchBlack,
                 fontSize = 32.sp,   modifier = Modifier)
             Icon(
-                imageVector = Icons.Filled.ContentPaste,
-                contentDescription = "Tarefas",
+                imageVector = Icons.Filled.Person,
+                contentDescription = "Usuário",
                 tint = ArchBlue,
                 modifier = Modifier.size(40.dp)
             )

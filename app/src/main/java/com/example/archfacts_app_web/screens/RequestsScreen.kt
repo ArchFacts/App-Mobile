@@ -40,7 +40,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.archfacts_app_web.R
-import com.example.archfacts_app_web.SearchBar
+//import com.example.archfacts_app_web.SearchBar
 import com.example.archfacts_app_web.components.CardType
 import com.example.archfacts_app_web.components.Counter
 import com.example.archfacts_app_web.components.NavbarCorner
