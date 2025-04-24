@@ -46,7 +46,7 @@ fun RegisterUser(navActions: NavActions) {
                 FormContainer(
                     inputs,
                     RectangleShape,
-                    title = "Cadasto",
+                    title = "Cadastro",
                     mostrarSeta = true,
                     button = {
                         CustomButton(
