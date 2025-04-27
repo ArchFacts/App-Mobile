@@ -52,7 +52,10 @@ data class FormInput(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun FormInputField(label: String, placeholder: String, isPassword: Boolean) {
+fun FormInputField(  label: String,
+                     placeholder: String,
+                     isPassword: Boolean,
+                     onValueChange: (String) -> Unit = {}) {
     var text: String by remember { mutableStateOf("") }
     var password: String by remember { mutableStateOf("") }
     var senhaVisivel by remember { mutableStateOf(false) }
@@ -145,11 +148,13 @@ fun FormInputField(label: String, placeholder: String, isPassword: Boolean) {
 
 @Composable
 fun FormContainer(
-    inputs: List<FormInput>, shape: Shape = RectangleShape,
+    inputs: List<FormInput>,
+    shape: Shape = RectangleShape,
     title: String? = null,
     mostrarSeta: Boolean = false,
     button: @Composable (() -> Unit)? = null,
     cliqueSeta: () -> Unit = {},
+    onInputChange: (Int, String) -> Unit = { _, _ -> },
     modifier: Modifier
 ) {
     Surface(
@@ -192,10 +197,12 @@ fun FormContainer(
                 }
             }
 
-            inputs.forEach { input ->
+            inputs.forEachIndexed { index, input ->
                 FormInputField(
-                    input.label, input.placeholder,
-                    isPassword = input.isPassword
+                    label = input.label,
+                    placeholder = input.placeholder,
+                    isPassword = input.isPassword,
+                    onValueChange = { newValue -> onInputChange(index, newValue) }
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }

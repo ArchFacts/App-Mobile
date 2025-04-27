@@ -14,6 +14,15 @@ fun rememberNavActions(navController: NavHostController): NavActions {
 }
 
 class NavActions(private val navController: NavHostController) {
+    fun navigateToHome() {
+        navController.navigate(AppRoutes.Home.route) {
+            launchSingleTop = true
+            popUpTo(navController.graph.startDestinationId) {
+                saveState = true
+            }
+            restoreState = true
+        }
+    }
     fun navigate(route: AppRoutes) {
 
         println("Tentando navegar para $route")
