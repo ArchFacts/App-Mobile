@@ -26,9 +26,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -47,19 +49,24 @@ import com.example.archfacts_app_web.ui.theme.Poppins
 data class FormInput(
     val label: String,
     val placeholder: String,
+    val value: String = "",
     val isPassword: Boolean = false,
+    val onValueChange: (String) -> Unit = { println() },
 )
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun FormInputField(  label: String,
-                     placeholder: String,
-                     isPassword: Boolean,
-                     onValueChange: (String) -> Unit = {}) {
-    var text: String by remember { mutableStateOf("") }
-    var password: String by remember { mutableStateOf("") }
+fun FormInputField(
+    label: String,
+    placeholder: String,
+    value: String,
+    isPassword: Boolean,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+//    var text: String by remember { mutableStateOf("") }
+//    var password: String by remember { mutableStateOf("") }
     var senhaVisivel by remember { mutableStateOf(false) }
-
 
     Column(modifier = Modifier.padding(5.dp)) {
         Text(
@@ -77,8 +84,8 @@ fun FormInputField(  label: String,
         ) {
             if (isPassword) {
                 TextField(
-                    value = password,
-                    onValueChange = { password = it },
+                    value = value,
+                    onValueChange = onValueChange,
                     placeholder = {
                         Text(
                             text = placeholder,
@@ -110,12 +117,13 @@ fun FormInputField(  label: String,
                         unfocusedIndicatorColor = Color.Transparent,
                         disabledIndicatorColor = Color.Transparent
                     ),
+                    singleLine = true
                 )
 
             } else {
                 TextField(
-                    value = text,
-                    onValueChange = { text = it },
+                    value = value,
+                    onValueChange = onValueChange,
                     placeholder = {
                         Text(
                             text = placeholder,
@@ -154,7 +162,7 @@ fun FormContainer(
     mostrarSeta: Boolean = false,
     button: @Composable (() -> Unit)? = null,
     cliqueSeta: () -> Unit = {},
-    onInputChange: (Int, String) -> Unit = { _, _ -> },
+//    onInputChange: (Int, String) -> Unit = { _, _ -> },
     modifier: Modifier
 ) {
     Surface(
@@ -197,12 +205,14 @@ fun FormContainer(
                 }
             }
 
-            inputs.forEachIndexed { index, input ->
+            inputs.forEach { input ->
+
                 FormInputField(
                     label = input.label,
                     placeholder = input.placeholder,
                     isPassword = input.isPassword,
-                    onValueChange = { newValue -> onInputChange(index, newValue) }
+                    value = input.value,
+                    onValueChange = input.onValueChange
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
@@ -214,12 +224,29 @@ fun FormContainer(
 @Preview(showBackground = true)
 @Composable
 fun FormContainerPreview() {
+    var email by remember { mutableStateOf("") }
+    var nome by remember { mutableStateOf("") }
+    var telefone by remember { mutableStateOf("") }
+    var senha by remember { mutableStateOf("") }
+
     val inputs = listOf(
-        FormInput(label = "E-mail:", placeholder = ""),
-        FormInput(label = "Nome:", placeholder = ""),
-        FormInput(label = "Telefone:", placeholder = ""),
-        FormInput(label = "Mensagem:", placeholder = ""),
-        FormInput(label = "Senha:", placeholder = "", true)
+        FormInput(
+            label = "E-mail:",
+            placeholder = "",
+            value = email,
+            onValueChange = { email = it }),
+        FormInput(label = "Nome:", placeholder = "", value = nome, onValueChange = { nome = it }),
+        FormInput(
+            label = "Telefone:",
+            placeholder = "",
+            value = telefone,
+            onValueChange = { telefone = it }),
+        FormInput(
+            label = "Senha:",
+            placeholder = "",
+            isPassword = true,
+            value = senha,
+            onValueChange = { senha = it })
     )
 
     FormContainer(

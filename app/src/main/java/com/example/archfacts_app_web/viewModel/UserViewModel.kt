@@ -29,11 +29,13 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
 
                 when {
                     response.isSuccessful -> onSuccess()
-                    response.code() == 409 -> onError("Email já cadastrado")
-                    else -> onError("Erro ${response.code()}: ${response.message()}")
+                    else -> {
+                        val errorBody = response.errorBody()?.string() ?: "Sem detalhes"
+                        onError("Erro ${response.code()}: $errorBody")
+                    }
                 }
             } catch (e: Exception) {
-                onError("Erro ${e.localizedMessage ?: "Erro desconhecido"}")
+                onError("Falha na conexão: ${e.localizedMessage ?: "Erro desconhecido"}")
             }
         }
     }

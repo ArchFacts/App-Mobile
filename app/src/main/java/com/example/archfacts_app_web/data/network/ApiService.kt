@@ -6,6 +6,6 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface ApiService {
-    @POST("auth/registro") // Especifique o endpoint exato
+    @POST("auth/registro")
     suspend fun cadastrarUsuario(@Body user: User): Response<User>
 }

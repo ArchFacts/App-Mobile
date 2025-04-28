@@ -25,6 +25,8 @@ import com.example.archfacts_app_web.navigation.NavActions
 import com.example.archfacts_app_web.screens.home_sections.Footer
 import com.example.archfacts_app_web.ui.theme.ArchBlue
 import android.widget.Toast
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import com.example.archfacts_app_web.data.models.User
 import com.example.archfacts_app_web.data.network.RetrofitInstance
 import com.example.archfacts_app_web.viewModel.UserViewModel
@@ -33,26 +35,27 @@ import kotlin.random.Random
 
 @Composable
 fun RegisterUser(navActions: NavActions) {
-    // 1. Estados dos campos (ocultos, não alteram sua UI)
     val nome = remember { mutableStateOf("") }
     val telefone = remember { mutableStateOf("") }
     val email = remember { mutableStateOf("") }
     val senha = remember { mutableStateOf("") }
     val confirmacaoSenha = remember { mutableStateOf("") }
 
-    // 2. ViewModel para AWS
     val context = LocalContext.current
     val userViewModel: UserViewModel = viewModel(
         factory = UserViewModelFactory(context)
     )
 
-    // 3. Seu FormContainer EXATAMENTE como estava
     val inputs = listOf(
-        FormInput("Nome:", ""),
-        FormInput("Telefone:", ""),
-        FormInput("Email:", ""),
-        FormInput("Senha:", "", true),
-        FormInput("Confirmação de senha:", "", true)
+        FormInput("Nome:", "", nome.value, onValueChange = { nome.value = it }),
+        FormInput("Telefone:", "", telefone.value, onValueChange = { telefone.value = it }),
+        FormInput("Email:", "", email.value, onValueChange = { email.value = it }),
+        FormInput("Senha:", "", isPassword = true, onValueChange = { senha.value = it }),
+        FormInput(
+            "Confirmação de senha:",
+            "",
+            isPassword = true,
+            onValueChange = { confirmacaoSenha.value = it })
     )
 
     Scaffold(
@@ -62,7 +65,8 @@ fun RegisterUser(navActions: NavActions) {
                 modifier = Modifier
                     .padding(innerPadding)
                     .fillMaxSize()
-                    .background(Color.White),
+                    .background(Color.White)
+                    .verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.Center
             ) {
                 FormContainer(
@@ -74,9 +78,12 @@ fun RegisterUser(navActions: NavActions) {
                         CustomButton(
                             text = "Cadastrar",
                             onClick = {
-                                // Validação básica
                                 if (senha.value != confirmacaoSenha.value) {
-                                    Toast.makeText(context, "Senhas não coincidem!", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        context,
+                                        "Senhas não coincidem!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                     return@CustomButton
                                 }
 
@@ -86,11 +93,16 @@ fun RegisterUser(navActions: NavActions) {
                                     telefone = telefone.value,
                                     senha = senha.value,
                                     onSuccess = {
-                                        Toast.makeText(context, "Cadastro feito!", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(
+                                            context,
+                                            "Cadastro feito!",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                         navActions.navigateToHome()
                                     },
                                     onError = { erro ->
-                                        Toast.makeText(context, "Erro: $erro", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, "Erro: $erro", Toast.LENGTH_SHORT)
+                                            .show()
                                     }
                                 )
                             },
@@ -99,18 +111,8 @@ fun RegisterUser(navActions: NavActions) {
                             backgroundColor = ArchBlue,
                         )
                     },
-                    modifier = Modifier.weight(1f),
-                    // Captura dos valores dos campos
+                    modifier = Modifier,
                     cliqueSeta = { /*...*/ },
-                    onInputChange = { index, value ->
-                        when (index) {
-                            0 -> nome.value = value
-                            1 -> telefone.value = value
-                            2 -> email.value = value
-                            3 -> senha.value = value
-                            4 -> confirmacaoSenha.value = value
-                        }
-                    }
                 )
             }
         },
