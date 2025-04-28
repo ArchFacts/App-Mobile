@@ -33,7 +33,7 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
                     else -> onError("Erro ${response.code()}: ${response.message()}")
                 }
             } catch (e: Exception) {
-                onError("Erro de rede: ${e.localizedMessage ?: "Erro desconhecido"}")
+                onError("Erro ${e.localizedMessage ?: "Erro desconhecido"}")
             }
         }
     }

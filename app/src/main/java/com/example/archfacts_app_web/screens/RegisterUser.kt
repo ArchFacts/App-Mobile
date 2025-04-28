@@ -25,8 +25,11 @@ import com.example.archfacts_app_web.navigation.NavActions
 import com.example.archfacts_app_web.screens.home_sections.Footer
 import com.example.archfacts_app_web.ui.theme.ArchBlue
 import android.widget.Toast
+import com.example.archfacts_app_web.data.models.User
+import com.example.archfacts_app_web.data.network.RetrofitInstance
 import com.example.archfacts_app_web.viewModel.UserViewModel
 import com.example.archfacts_app_web.viewModel.UserViewModelFactory
+import kotlin.random.Random
 
 @Composable
 fun RegisterUser(navActions: NavActions) {
