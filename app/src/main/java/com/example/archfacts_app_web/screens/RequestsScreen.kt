@@ -45,6 +45,7 @@ import com.example.archfacts_app_web.components.CardType
 import com.example.archfacts_app_web.components.Counter
 import com.example.archfacts_app_web.components.NavbarCorner
 import com.example.archfacts_app_web.components.NavigationBar
+import com.example.archfacts_app_web.enums.PriorityEnum
 import com.example.archfacts_app_web.enums.RequestEnum
 import com.example.archfacts_app_web.ui.theme.ArchBlack
 import com.example.archfacts_app_web.ui.theme.Poppins
@@ -52,9 +53,10 @@ import com.example.archfacts_app_web.ui.theme.Poppins
 data class RequestData(
     val title: String,
     val dateEnd: String,
-    val status: RequestEnum,
+    val statusRequest: RequestEnum,
     val type: CardType,
     val project: String = "",
+    val priorityRequest: PriorityEnum
 )
 
 @Composable
@@ -82,13 +84,13 @@ fun RequestItem(request: RequestData) {
             Box(
                 modifier = Modifier
                     .size(16.dp)
-                    .background(request.status.color)
+                    .background(request.statusRequest.color)
             )
 
             Spacer(Modifier.weight(1f))
 
             Text(
-                text = request.status.name,
+                text = request.statusRequest.name,
                 fontWeight = FontWeight.SemiBold,
                 fontFamily = Poppins,
                 fontSize = 12.sp
@@ -159,37 +161,43 @@ fun RequestsScreen(modifier: Modifier = Modifier, type: CardType) {
         RequestData(
             title = "Validar cores",
             dateEnd = "28 Mar, 10:29",
-            status = RequestEnum.FINALIZADO,
+            statusRequest = RequestEnum.FINALIZADO,
+            priorityRequest = PriorityEnum.BAIXA,
             type = type
         ),
         RequestData(
             title = "Corrigir bug UI",
             dateEnd = "29 Mar, 14:30",
-            status = RequestEnum.EM_PROGRESSO,
+            statusRequest = RequestEnum.EM_PROGRESSO,
+            priorityRequest = PriorityEnum.BAIXA,
             type = type
         ),
         RequestData(
             title = "Validar cores",
             dateEnd = "28 Mar, 10:29",
-            status = RequestEnum.FINALIZADO,
+            statusRequest = RequestEnum.FINALIZADO,
+            priorityRequest = PriorityEnum.BAIXA,
             type = type
         ),
         RequestData(
             title = "Validar cores",
             dateEnd = "28 Mar, 10:29",
-            status = RequestEnum.FINALIZADO,
+            statusRequest = RequestEnum.FINALIZADO,
+            priorityRequest = PriorityEnum.BAIXA,
             type = type
         ),
         RequestData(
             title = "Validar cores",
             dateEnd = "28 Mar, 10:29",
-            status = RequestEnum.FINALIZADO,
+            statusRequest = RequestEnum.FINALIZADO,
+            priorityRequest = PriorityEnum.BAIXA,
             type = type
         ),
         RequestData(
             title = "Validar cores",
             dateEnd = "28 Mar, 10:29",
-            status = RequestEnum.FINALIZADO,
+            statusRequest = RequestEnum.FINALIZADO,
+            priorityRequest = PriorityEnum.BAIXA,
             type = type
         )
     )
@@ -295,7 +303,7 @@ fun RequestsScreen(modifier: Modifier = Modifier, type: CardType) {
 fun RequestsScreenPreview() {
     val requestTeste = RequestData(
         "Validar cores", "28 Mar, 10:29", RequestEnum.FINALIZADO,
-        CardType.Chamados
+        priorityRequest = PriorityEnum.BAIXA, type = CardType.Chamados
     )
     RequestsScreen(type = CardType.Chamados)
 }

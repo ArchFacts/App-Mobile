@@ -1,7 +1,6 @@
 package com.example.archfacts_app_web.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,9 +34,9 @@ import com.example.archfacts_app_web.components.CardType
 import com.example.archfacts_app_web.components.CustomButton
 import com.example.archfacts_app_web.components.NavbarCorner
 import com.example.archfacts_app_web.components.NavigationBar
+import com.example.archfacts_app_web.enums.PriorityEnum
 import com.example.archfacts_app_web.enums.RequestEnum
 import com.example.archfacts_app_web.ui.theme.ArchBlack
-import com.example.archfacts_app_web.ui.theme.ArchBlue
 import com.example.archfacts_app_web.ui.theme.ArchOrange
 import com.example.archfacts_app_web.ui.theme.Poppins
 
@@ -75,9 +74,10 @@ val dados = RequestDetailsData(
     RequestData(
         title = "Validar cores",
         dateEnd = "28 Mar, 10:29",
-        status = RequestEnum.FINALIZADO,
+        statusRequest = RequestEnum.FINALIZADO,
         type = CardType.Chamados,
-        project = "Projeto de abelhas"
+        project = "Projeto de abelhas",
+        priorityRequest = PriorityEnum.BAIXA
     ),
     prestadorName = "ECORP",
     desc = "Solicito a verificação das cores desejadas para os veículos.",
@@ -87,7 +87,6 @@ val dados = RequestDetailsData(
 
 @Composable
 fun RequestDetailsBox(requestDetails: RequestDetailsData = dados, modifier: Modifier = Modifier) {
-
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -105,7 +104,7 @@ fun RequestDetailsBox(requestDetails: RequestDetailsData = dados, modifier: Modi
         Column(
             verticalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier
-                .height(375.dp)
+                .height(450.dp)
                 .padding(10.dp)
         ) {
             Row(
@@ -122,12 +121,28 @@ fun RequestDetailsBox(requestDetails: RequestDetailsData = dados, modifier: Modi
                     color = dados.requestData.type.backgroundColor,
                     fontFamily = Poppins
                 )
-                Icon(
-                    painter = painterResource(id = dados.requestData.type.iconRes),
-                    contentDescription = "Icone de chamado",
-                    tint = dados.requestData.type.backgroundColor,
-                    modifier = Modifier.size(42.dp)
-                )
+                if (dados.requestData.type == CardType.Chamados) {
+                    Icon(
+                        painter = painterResource(id = dados.requestData.type.iconRes),
+                        contentDescription = "Icone de chamado",
+                        tint = dados.requestData.type.backgroundColor,
+                        modifier = Modifier.size(42.dp)
+                    )
+                } else {
+                    Icon(
+                        painter = painterResource(id = R.drawable.edit),
+                        contentDescription = "Icone de chamado",
+                        tint = dados.requestData.type.backgroundColor,
+                        modifier = Modifier.size(48.dp)
+                    )
+
+                    Icon(
+                        painter = painterResource(id = R.drawable.trash_can),
+                        contentDescription = "Icone de chamado",
+                        tint = dados.requestData.type.backgroundColor,
+                        modifier = Modifier.size(42.dp)
+                    )
+                }
             }
 
             Row(
@@ -164,13 +179,13 @@ fun RequestDetailsBox(requestDetails: RequestDetailsData = dados, modifier: Modi
                 Box(
                     modifier = Modifier
                         .size(16.dp)
-                        .background(dados.requestData.status.color)
+                        .background(dados.requestData.statusRequest.color)
                 )
 
                 Spacer(Modifier.width(5.dp))
 
                 Text(
-                    text = dados.requestData.status.name,
+                    text = dados.requestData.statusRequest.name,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Normal,
                     color = ArchBlack,
@@ -179,18 +194,22 @@ fun RequestDetailsBox(requestDetails: RequestDetailsData = dados, modifier: Modi
 
             }
 
-            Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Center) {
+            Column(modifier = Modifier.fillMaxWidth()) {
                 DateLine(dados.dateStart)
                 DateLine(dados.requestData.dateEnd)
             }
 
-            Column(modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Text(
                     text = "Descrição:",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Normal,
                     color = ArchBlack,
-                    fontFamily = Poppins
+                    fontFamily = Poppins,
+                    modifier = Modifier.fillMaxWidth()
                 )
                 Text(
                     text = dados.desc,
@@ -238,7 +257,8 @@ fun PriceBox() {
                 .padding(16.dp)
         ) {
             Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
@@ -252,17 +272,48 @@ fun PriceBox() {
                     fontFamily = Poppins,
                     textAlign = TextAlign.Center,
                 )
-                Icon(
-                    painter = painterResource(id = R.drawable.sign),
-                    contentDescription = "Icone de chamado",
-                    tint = dados.requestData.type.backgroundColor,
-                    modifier = Modifier.size(48.dp)
-                )
+                if (dados.requestData.type == CardType.Chamados) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.sign),
+                        contentDescription = "Icone de chamado",
+                        tint = dados.requestData.type.backgroundColor,
+                        modifier = Modifier.size(48.dp)
+                    )
+                } else {
+
+                    Spacer(Modifier.width(16.dp))
+
+                    Box(
+                        modifier = Modifier
+                            .size(16.dp)
+                            .background(dados.requestData.priorityRequest.color)
+                    )
+
+                    Text(
+                        text = dados.requestData.priorityRequest.name,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Normal,
+                        color = ArchBlack,
+                        fontFamily = Poppins,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.width(100.dp)
+                    )
+                }
             }
 
             Spacer(Modifier.height(16.dp))
 
-            CustomButton("Definir Custo", onClick = {}, 250.dp, 35.dp, fontSize = 24.sp)
+            CustomButton(
+                when (dados.requestData.type) {
+                    CardType.Chamados -> "Definir Custo"
+                    CardType.Tarefas -> "Definir Despesa"
+                },
+                onClick = {},
+                250.dp,
+                35.dp,
+                fontSize = 24.sp,
+                backgroundColor = dados.requestData.type.backgroundColor
+            )
         }
     }
 }
@@ -284,9 +335,9 @@ fun RequestDetails() {
                             CardType.Chamados -> "Chamados ${dados.prestadorName}"
                             CardType.Tarefas -> "Tarefas ${dados.prestadorName}"
                         },
-                        fontSize = 28.sp,
+                        fontSize = 32.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = ArchBlue,
+                        color = dados.requestData.type.backgroundColor,
                         fontFamily = Poppins,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth()
@@ -327,7 +378,15 @@ fun RequestDetails() {
                 }
                 PriceBox()
 
-                NavigationBar("Ir para chamados", CardType.Chamados.backgroundColor)
+
+                Row(modifier = Modifier.padding(16.dp)) {
+                    NavigationBar(
+                        when (dados.requestData.type) {
+                            CardType.Chamados -> "Ir para chamados"
+                            CardType.Tarefas -> "Ir para tarefas"
+                        }, dados.requestData.type.backgroundColor
+                    )
+                }
             }
         },
         bottomBar = {
