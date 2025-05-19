@@ -10,6 +10,12 @@ sealed class AppRoutes(
 ) {
     object Home : AppRoutes("home")
     object Registro : AppRoutes("registro")
+    object Splash : AppRoutes("splash")
+    object Login : AppRoutes("login")
+    object Ajuda : AppRoutes("ajuda")
+    object Sobre : AppRoutes("sobre")
+    object Configuracoes : AppRoutes("configuracoes")
+
 
     data class Perfil(val idUsuario: String) : AppRoutes(
         route = "perfil/$idUsuario",

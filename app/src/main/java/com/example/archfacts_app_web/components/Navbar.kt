@@ -2,6 +2,7 @@ package com.example.archfacts_app_web.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -24,6 +25,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.archfacts_app_web.R
+import com.example.archfacts_app_web.navigation.AppRoutes
+import com.example.archfacts_app_web.navigation.NavActions
 import com.example.archfacts_app_web.ui.theme.ArchBlack
 import com.example.archfacts_app_web.ui.theme.ArchFactsAppWebTheme
 import com.example.archfacts_app_web.ui.theme.Poppins
@@ -68,12 +71,14 @@ fun NavbarVariation() {
 }
 
 @Composable
-fun Navbar(modifier: Modifier = Modifier) {
+fun Navbar(modifier: Modifier = Modifier, navActions: NavActions? = null) {
+
     Row(
         modifier = modifier
             .fillMaxWidth()
             .background(ArchBlack)
             .padding(horizontal = 15.dp),
+
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -98,7 +103,11 @@ fun Navbar(modifier: Modifier = Modifier) {
                 text = "Login",
                 fontFamily = Poppins,
                 fontWeight = FontWeight.Black,
-                color = Color.White
+                color = Color.White,
+                modifier = Modifier.clickable {
+                    navActions?.navigate(AppRoutes.Login)
+
+                }
             )
 
             Spacer(
@@ -109,7 +118,10 @@ fun Navbar(modifier: Modifier = Modifier) {
                 text = "Cadastro",
                 fontFamily = Poppins,
                 fontWeight = FontWeight.Black,
-                color = Color.White
+                color = Color.White,
+                modifier = Modifier.clickable {
+                    navActions?.navigate(AppRoutes.Registro)
+                }
             )
         }
 
