@@ -5,6 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.archfacts_app_web.screens.Login
 import com.example.archfacts_app_web.screens.RegisterUser
 import com.example.archfacts_app_web.screens.home_sections.HeroSection
 
@@ -49,10 +50,9 @@ fun AppNavGraph(navController: NavHostController) {
             val actions = rememberNavActions(navController)
             RegisterUser(actions)
         }
-
-        composable(AppRoutes.Perfil.padrao_rota) { input ->
-            val perfil = AppRoutes.Perfil.fromArgs(input)
-            // TELA_PERFIL (perfil)
+        composable(route = AppRoutes.Login.route) {
+            Login(navActions = NavActions(navController))
         }
+
     }
 }
