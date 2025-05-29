@@ -50,7 +50,7 @@ fun HeroSection(navActions: NavActions) {
                 .fillMaxSize(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Navbar()
+            Navbar(navActions = navActions)
 
             Column(modifier = Modifier.weight(1f)) {
 

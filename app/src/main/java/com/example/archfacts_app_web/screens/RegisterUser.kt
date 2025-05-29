@@ -21,6 +21,7 @@ import com.example.archfacts_app_web.components.CustomButton
 import com.example.archfacts_app_web.components.FormContainer
 import com.example.archfacts_app_web.components.FormInput
 import com.example.archfacts_app_web.components.NavbarVariation
+import com.example.archfacts_app_web.navigation.AppRoutes
 import com.example.archfacts_app_web.navigation.NavActions
 import com.example.archfacts_app_web.screens.home_sections.Footer
 import com.example.archfacts_app_web.ui.theme.ArchBlue
@@ -82,6 +83,7 @@ fun RegisterUser(navActions: NavActions) {
                     shape = RectangleShape,
                     title = "Cadastro",
                     mostrarSeta = true,
+                    cliqueSeta = { navActions.navigate(AppRoutes.Home) },
                     button = {
                         CustomButton(
                             text = "Cadastrar",
@@ -114,12 +116,6 @@ fun RegisterUser(navActions: NavActions) {
                                             .show()
                                     }
                                 )
-                            },
-                            width = 200.dp,
-                            height = 35.dp,
-                            backgroundColor = ArchBlue,
-                        )
-                    },
                     modifier = Modifier.weight(1f),
                     // Captura dos valores dos campos
                     cliqueSeta = { /*...*/ },
