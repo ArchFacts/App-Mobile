@@ -3,11 +3,11 @@ package com.example.archfacts_app_web.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.archfacts_app_web.data.models.User
+import com.example.archfacts_app_web.data.network.RetrofitInstance
 import com.example.archfacts_app_web.data.repositories.UserRepository
 import kotlinx.coroutines.launch
 
 class UserViewModel(private val repository: UserRepository) : ViewModel() {
-
     fun cadastrarUsuario(
         nome: String,
         email: String,
@@ -18,22 +18,26 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
     ) {
         viewModelScope.launch {
             try {
-                val usuario = User(
-                    nome = nome,
-                    email = email,
-                    telefone = telefone,
+                val user = User(
+                    nome = nome.trim(),
+                    email = email.trim(),
+                    telefone = telefone.trim(),
                     senha = senha
                 )
 
-                val response = repository.cadastrarUsuario(usuario)
+                // Verificação adicional
+                println("Ordem dos campos no objeto: ${user.toString()}")
 
-                when {
-                    response.isSuccessful -> onSuccess()
-                    response.code() == 409 -> onError("Email já cadastrado")
-                    else -> onError("Erro ${response.code()}: ${response.message()}")
+                val response = repository.cadastrarUsuario(user)
+
+                if (response.isSuccessful) {
+                    onSuccess()
+                } else {
+                    val errorBody = response.errorBody()?.string() ?: "Erro desconhecido"
+                    onError("Erro ${response.code()}: $errorBody")
                 }
             } catch (e: Exception) {
-                onError("Erro ${e.localizedMessage ?: "Erro desconhecido"}")
+                onError("Falha: ${e.message ?: "Erro desconhecido"}")
             }
         }
     }

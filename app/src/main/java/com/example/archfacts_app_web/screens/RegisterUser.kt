@@ -25,6 +25,8 @@ import com.example.archfacts_app_web.navigation.NavActions
 import com.example.archfacts_app_web.screens.home_sections.Footer
 import com.example.archfacts_app_web.ui.theme.ArchBlue
 import android.widget.Toast
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import com.example.archfacts_app_web.data.models.User
 import com.example.archfacts_app_web.data.network.RetrofitInstance
 import com.example.archfacts_app_web.viewModel.UserViewModel
@@ -33,14 +35,19 @@ import kotlin.random.Random
 
 @Composable
 fun RegisterUser(navActions: NavActions) {
-    // 1. Estados dos campos (ocultos, não alteram sua UI)
-    val nome = remember { mutableStateOf("") }
-    val telefone = remember { mutableStateOf("") }
-    val email = remember { mutableStateOf("") }
-    val senha = remember { mutableStateOf("") }
-    val confirmacaoSenha = remember { mutableStateOf("") }
+    var nome by remember { mutableStateOf("") }
+    var telefone by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var senha by remember { mutableStateOf("") }
+    var confirmacaoSenha by remember { mutableStateOf("") }
 
-    // 2. ViewModel para AWS
+
+//    val (nome, setNome) = remember { mutableStateOf("") }
+//    val (telefone, setTelefone) = remember { mutableStateOf("") }
+//    val (email, setEmail) = remember { mutableStateOf("") }
+//    val (senha, setSenha) = remember { mutableStateOf("") }
+//    val (confirmacaoSenha, setConfirmacaoSenha) = remember { mutableStateOf("") }
+
     val context = LocalContext.current
     val userViewModel: UserViewModel = viewModel(
         factory = UserViewModelFactory(context)
@@ -48,11 +55,16 @@ fun RegisterUser(navActions: NavActions) {
 
     // 3. Seu FormContainer EXATAMENTE como estava
     val inputs = listOf(
-        FormInput("Nome:", ""),
-        FormInput("Telefone:", ""),
-        FormInput("Email:", ""),
-        FormInput("Senha:", "", true),
-        FormInput("Confirmação de senha:", "", true)
+        FormInput("Nome:", "", value = nome, onValueChange = { nome=(it) }),
+        FormInput("Email:", "", value = email, onValueChange = { email= (it) }),
+        FormInput("Telefone:", "", value = telefone, onValueChange = { telefone=(it) }),
+        FormInput("Senha:", "", isPassword = true, value = senha, onValueChange = { senha=(it) }),
+        FormInput(
+            "Confirmação de senha:",
+            "",
+            isPassword = true,
+            value = confirmacaoSenha,
+            onValueChange = { confirmacaoSenha=(it) })
     )
 
     Scaffold(
@@ -75,22 +87,31 @@ fun RegisterUser(navActions: NavActions) {
                             text = "Cadastrar",
                             onClick = {
                                 // Validação básica
-                                if (senha.value != confirmacaoSenha.value) {
-                                    Toast.makeText(context, "Senhas não coincidem!", Toast.LENGTH_SHORT).show()
+                                if (senha != confirmacaoSenha) {
+                                    Toast.makeText(
+                                        context,
+                                        "Senhas não coincidem!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                     return@CustomButton
                                 }
 
                                 userViewModel.cadastrarUsuario(
-                                    nome = nome.value,
-                                    email = email.value,
-                                    telefone = telefone.value,
-                                    senha = senha.value,
+                                    nome = nome,
+                                    email = email,
+                                    telefone = telefone,
+                                    senha = senha,
                                     onSuccess = {
-                                        Toast.makeText(context, "Cadastro feito!", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(
+                                            context,
+                                            "Cadastro feito!",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                         navActions.navigateToHome()
                                     },
                                     onError = { erro ->
-                                        Toast.makeText(context, "Erro: $erro", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, "Erro: $erro", Toast.LENGTH_SHORT)
+                                            .show()
                                     }
                                 )
                             },
@@ -104,11 +125,11 @@ fun RegisterUser(navActions: NavActions) {
                     cliqueSeta = { /*...*/ },
                     onInputChange = { index, value ->
                         when (index) {
-                            0 -> nome.value = value
-                            1 -> telefone.value = value
-                            2 -> email.value = value
-                            3 -> senha.value = value
-                            4 -> confirmacaoSenha.value = value
+                            0 -> nome = value
+                            1 -> email = value
+                            2 -> telefone = value
+                            3 -> senha = value
+                            4 -> confirmacaoSenha = value
                         }
                     }
                 )

@@ -47,17 +47,22 @@ import com.example.archfacts_app_web.ui.theme.Poppins
 data class FormInput(
     val label: String,
     val placeholder: String,
+    val value: String = "",
     val isPassword: Boolean = false,
+    val onValueChange: (String) -> Unit = {}
 )
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun FormInputField(  label: String,
-                     placeholder: String,
-                     isPassword: Boolean,
-                     onValueChange: (String) -> Unit = {}) {
-    var text: String by remember { mutableStateOf("") }
-    var password: String by remember { mutableStateOf("") }
+fun FormInputField(
+    label: String,
+    placeholder: String,
+    value: String,
+    isPassword: Boolean,
+    onValueChange: (String) -> Unit
+) {
+//    var text: String by remember { mutableStateOf("") }
+//    var password: String by remember { mutableStateOf("") }
     var senhaVisivel by remember { mutableStateOf(false) }
 
 
@@ -77,8 +82,8 @@ fun FormInputField(  label: String,
         ) {
             if (isPassword) {
                 TextField(
-                    value = password,
-                    onValueChange = { password = it },
+                    value = value,
+                    onValueChange = onValueChange,
                     placeholder = {
                         Text(
                             text = placeholder,
@@ -114,8 +119,8 @@ fun FormInputField(  label: String,
 
             } else {
                 TextField(
-                    value = text,
-                    onValueChange = { text = it },
+                    value = value,
+                    onValueChange = onValueChange,
                     placeholder = {
                         Text(
                             text = placeholder,
@@ -197,12 +202,13 @@ fun FormContainer(
                 }
             }
 
-            inputs.forEachIndexed { index, input ->
+            inputs.forEach { input ->
                 FormInputField(
                     label = input.label,
                     placeholder = input.placeholder,
+                    value = input.value,
                     isPassword = input.isPassword,
-                    onValueChange = { newValue -> onInputChange(index, newValue) }
+                    onValueChange = input.onValueChange
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
@@ -211,30 +217,30 @@ fun FormContainer(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun FormContainerPreview() {
-    val inputs = listOf(
-        FormInput(label = "E-mail:", placeholder = ""),
-        FormInput(label = "Nome:", placeholder = ""),
-        FormInput(label = "Telefone:", placeholder = ""),
-        FormInput(label = "Mensagem:", placeholder = ""),
-        FormInput(label = "Senha:", placeholder = "", true)
-    )
-
-    FormContainer(
-        inputs = inputs,
-        title = "Cadastro",
-        button = {
-            CustomButton(
-                text = "Cadastrar",
-                onClick = { },
-                width = 200.dp,
-                height = 35.dp,
-                backgroundColor = ArchBlue,
-            )
-        },
-        mostrarSeta = true,
-        modifier = Modifier
-    )
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun FormContainerPreview() {
+//    val inputs = listOf(
+//        FormInput(label = "E-mail:", placeholder = ""),
+//        FormInput(label = "Nome:", placeholder = ""),
+//        FormInput(label = "Telefone:", placeholder = ""),
+//        FormInput(label = "Mensagem:", placeholder = ""),
+//        FormInput(label = "Senha:", placeholder = "", isPassword = true)
+//    )
+//
+//    FormContainer(
+//        inputs = inputs,
+//        title = "Cadastro",
+//        button = {
+//            CustomButton(
+//                text = "Cadastrar",
+//                onClick = { },
+//                width = 200.dp,
+//                height = 35.dp,
+//                backgroundColor = ArchBlue,
+//            )
+//        },
+//        mostrarSeta = true,
+//        modifier = Modifier
+//    )
+//}
