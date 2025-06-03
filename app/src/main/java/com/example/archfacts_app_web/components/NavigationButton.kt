@@ -31,14 +31,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.archfacts_app_web.ui.theme.ArchBlack
 import com.example.archfacts_app_web.ui.theme.ArchBlue
+import com.example.archfacts_app_web.ui.theme.ArchOrange
 import com.example.archfacts_app_web.ui.theme.Poppins
+
+sealed class NavigationButtonStyle(val backgroundColor: Color) {
+    data object Azul : InfoCardStyle(ArchBlue)
+    data object Laranja : InfoCardStyle(ArchOrange)
+    data class Custom(val color: Color) : InfoCardStyle(color)
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavigationButton(
     text: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    style: InfoCardStyle = InfoCardStyle.Azul
 ) {
     Row(
         modifier = modifier
@@ -68,7 +76,7 @@ fun NavigationButton(
                 .height(58.dp)
                 .width(38.dp)
                 .clip(RoundedCornerShape(topEnd = 50.dp, bottomEnd = 50.dp))
-                .background(ArchBlue),
+                .background(style.backgroundColor),
             contentAlignment = Alignment.Center
         ) {
             Icon(

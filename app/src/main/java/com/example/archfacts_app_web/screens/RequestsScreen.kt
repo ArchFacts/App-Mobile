@@ -40,21 +40,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.archfacts_app_web.R
-import com.example.archfacts_app_web.SearchBar
+//import com.example.archfacts_app_web.SearchBar
 import com.example.archfacts_app_web.components.CardType
 import com.example.archfacts_app_web.components.Counter
 import com.example.archfacts_app_web.components.NavbarCorner
 import com.example.archfacts_app_web.components.NavigationBar
 import com.example.archfacts_app_web.enums.RequestEnum
 import com.example.archfacts_app_web.ui.theme.ArchBlack
-import com.example.archfacts_app_web.ui.theme.ArchBlue
 import com.example.archfacts_app_web.ui.theme.Poppins
 
 data class RequestData(
     val title: String,
-    val date: String,
+    val dateEnd: String,
     val status: RequestEnum,
-    val type: CardType
+    val type: CardType,
+    val project: String = "",
 )
 
 @Composable
@@ -127,7 +127,7 @@ fun RequestItem(request: RequestData) {
             Spacer(Modifier.weight(1f))
 
             Text(
-                text = request.date,
+                text = request.dateEnd,
                 fontWeight = FontWeight.Medium,
                 fontFamily = Poppins,
             )
@@ -158,37 +158,37 @@ fun RequestsScreen(modifier: Modifier = Modifier, type: CardType) {
     val sampleRequests = listOf(
         RequestData(
             title = "Validar cores",
-            date = "28 Mar, 10:29",
+            dateEnd = "28 Mar, 10:29",
             status = RequestEnum.FINALIZADO,
             type = type
         ),
         RequestData(
             title = "Corrigir bug UI",
-            date = "29 Mar, 14:30",
+            dateEnd = "29 Mar, 14:30",
             status = RequestEnum.EM_PROGRESSO,
             type = type
         ),
         RequestData(
             title = "Validar cores",
-            date = "28 Mar, 10:29",
+            dateEnd = "28 Mar, 10:29",
             status = RequestEnum.FINALIZADO,
             type = type
         ),
         RequestData(
             title = "Validar cores",
-            date = "28 Mar, 10:29",
+            dateEnd = "28 Mar, 10:29",
             status = RequestEnum.FINALIZADO,
             type = type
         ),
         RequestData(
             title = "Validar cores",
-            date = "28 Mar, 10:29",
+            dateEnd = "28 Mar, 10:29",
             status = RequestEnum.FINALIZADO,
             type = type
         ),
         RequestData(
             title = "Validar cores",
-            date = "28 Mar, 10:29",
+            dateEnd = "28 Mar, 10:29",
             status = RequestEnum.FINALIZADO,
             type = type
         )
@@ -280,7 +280,7 @@ fun RequestsScreen(modifier: Modifier = Modifier, type: CardType) {
                         }
                     }
                 }
-                Row(modifier = Modifier.padding(16.dp)) {
+                Row {
                     NavigationBar("Ir para projetos", color)
                 }
             }

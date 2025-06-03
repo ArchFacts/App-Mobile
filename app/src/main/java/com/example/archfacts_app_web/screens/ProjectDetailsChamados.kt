@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ContentPaste
+import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -35,16 +37,17 @@ import com.example.archfacts_app_web.components.NavigationButtonStyle
 import com.example.archfacts_app_web.components.ProjectTitle
 import com.example.archfacts_app_web.ui.theme.ArchBlack
 import com.example.archfacts_app_web.ui.theme.ArchBlue
+import com.example.archfacts_app_web.ui.theme.ArchOrange
 
 @Preview
 @Composable
-fun ProjectDetails() {
+fun ProjectDetailsChamados() {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-            HamburguerMenu(modifier = Modifier)
+        HamburguerMenu(modifier = Modifier)
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -67,7 +70,11 @@ fun ProjectDetails() {
                 .padding(horizontal = 16.dp)
                 .shadow(6.dp, RoundedCornerShape(16.dp))
                 .background(Color.White, RoundedCornerShape(16.dp)),
-        )
+            cardType = DetailCardType.Custom(
+                customIcon = Icons.Filled.Folder,
+                customColor = ArchBlue,
+                customShowButton = false
+        ))
         Spacer(modifier = Modifier
             .padding(10.dp))
         Row(
@@ -79,7 +86,7 @@ fun ProjectDetails() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             ProjectTitle(title = "Chamados Info", color = ArchBlack,
-                fontSize = 32.sp,modifier = Modifier)
+                fontSize = 32.sp,   modifier = Modifier)
             Icon(
                 imageVector = Icons.Filled.Person,
                 contentDescription = "Usuário",
@@ -87,7 +94,8 @@ fun ProjectDetails() {
                 modifier = Modifier.size(40.dp)
             )
         }
-        Spacer(modifier = Modifier.padding(10.dp))
+        Spacer(modifier = Modifier
+            .padding(10.dp))
         InfoCard(
             text = "Chamados:",
             qtd = 33,
@@ -98,8 +106,8 @@ fun ProjectDetails() {
                 .padding(horizontal = 16.dp)
                 .shadow(6.dp, RoundedCornerShape(16.dp))
                 .background(Color.White, RoundedCornerShape(16.dp)),
-            style = InfoCardStyle.Azul,
-            )
+            style = InfoCardStyle.Azul
+        )
         Spacer(modifier = Modifier
             .padding(10.dp))
         Box(
@@ -117,4 +125,4 @@ fun ProjectDetails() {
         }
 
     }
-    }
+}

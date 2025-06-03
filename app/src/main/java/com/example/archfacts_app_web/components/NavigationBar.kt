@@ -36,6 +36,7 @@ fun NavigationBar(text: String, color: Color) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(10.dp)
             .shadow(
                 3.dp,
                 clip = true,
@@ -67,17 +68,15 @@ fun NavigationBar(text: String, color: Color) {
                 )
             }
 
-            Spacer(modifier = Modifier.weight(0.3f))
-
             Text(
                 text = text,
                 fontFamily = Poppins,
-                fontWeight = FontWeight.Medium,
+                fontWeight = FontWeight.Normal,
                 fontSize = 32.sp,
                 textAlign = TextAlign.Start,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 32.dp)
+                    .padding(start = 24.dp)
             )
         }
     }

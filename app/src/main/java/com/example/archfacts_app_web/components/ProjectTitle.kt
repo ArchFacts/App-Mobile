@@ -7,13 +7,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.TextUnit
 
 @Composable
-fun ProjectTitle(title: String, color: Color, modifier: Modifier = Modifier ) {
+fun ProjectTitle(title: String, color: Color, fontSize : TextUnit = 32.sp, modifier: Modifier = Modifier ) {
     Text(
         text = title,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 32.sp,
+        fontSize = fontSize,
         color = color,
         modifier = modifier
     )
