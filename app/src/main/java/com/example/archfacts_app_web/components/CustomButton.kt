@@ -39,7 +39,7 @@ fun CustomButton(
             .width(width)
             .height(height),
         colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),
-        contentPadding = PaddingValues(0.dp)
+        contentPadding = PaddingValues(0.dp),
     ) {
         Text(
             text = text, color = textColor,

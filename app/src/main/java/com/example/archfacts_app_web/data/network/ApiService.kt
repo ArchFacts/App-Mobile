@@ -1,5 +1,7 @@
 package com.example.archfacts_app_web.data.network
 
+import com.example.archfacts_app_web.data.models.LoginRequest
+import com.example.archfacts_app_web.data.models.LoginResponse
 import com.example.archfacts_app_web.data.models.User
 import kotlinx.serialization.json.JsonObject
 import retrofit2.Response
@@ -16,4 +18,13 @@ interface ApiService {
     suspend fun cadastrarUsuario(
         @Body user: User
     ): Response<JsonObject>
+
+    @POST("auth/login")
+    @Headers(
+        "Content-Type: application/json",
+        "Accept: application/json"
+    )
+    suspend fun login(
+        @Body loginRequest: LoginRequest
+    ): Response<LoginResponse>
 }
