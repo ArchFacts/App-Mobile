@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -29,7 +30,6 @@ data class FormItem(
     val editavel: Boolean,
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormLine(
     label: String,
@@ -53,7 +53,7 @@ fun FormLine(
                 value = value,
                 onValueChange = onValueChange,
                 shape = RoundedCornerShape(6.dp),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
+                colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = ArchBlue,
                     unfocusedBorderColor = ArchBlue,
                     focusedTextColor = Color.Black

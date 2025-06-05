@@ -1,14 +1,13 @@
 package com.example.archfacts_app_web.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -25,14 +24,8 @@ import com.example.archfacts_app_web.navigation.AppRoutes
 import com.example.archfacts_app_web.navigation.NavActions
 import com.example.archfacts_app_web.screens.home_sections.Footer
 import com.example.archfacts_app_web.ui.theme.ArchBlue
-import android.widget.Toast
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import com.example.archfacts_app_web.data.models.User
-import com.example.archfacts_app_web.data.network.RetrofitInstance
 import com.example.archfacts_app_web.viewModel.UserViewModel
 import com.example.archfacts_app_web.viewModel.UserViewModelFactory
-import kotlin.random.Random
 
 @Composable
 fun RegisterUser(navActions: NavActions) {
@@ -42,34 +35,22 @@ fun RegisterUser(navActions: NavActions) {
     var senha by remember { mutableStateOf("") }
     var confirmacaoSenha by remember { mutableStateOf("") }
 
-
-//    val (nome, setNome) = remember { mutableStateOf("") }
-//    val (telefone, setTelefone) = remember { mutableStateOf("") }
-//    val (email, setEmail) = remember { mutableStateOf("") }
-//    val (senha, setSenha) = remember { mutableStateOf("") }
-//    val (confirmacaoSenha, setConfirmacaoSenha) = remember { mutableStateOf("") }
-
     val context = LocalContext.current
     val userViewModel: UserViewModel = viewModel(
         factory = UserViewModelFactory(context)
     )
 
-    // 3. Seu FormContainer EXATAMENTE como estava
     val inputs = listOf(
-        FormInput("Nome:", "", value = nome, onValueChange = { nome=(it) }),
-        FormInput("Email:", "", value = email, onValueChange = { email= (it) }),
-        FormInput("Telefone:", "", value = telefone, onValueChange = { telefone=(it) }),
-        FormInput("Senha:", "", isPassword = true, value = senha, onValueChange = { senha=(it) }),
-        FormInput(
-            "Confirmação de senha:",
-            "",
-            isPassword = true,
-            value = confirmacaoSenha,
-            onValueChange = { confirmacaoSenha=(it) })
+        FormInput("Nome:", "", value = nome, onValueChange = { nome = it }),
+        FormInput("Email:", "", value = email, onValueChange = { email = it }),
+        FormInput("Telefone:", "", value = telefone, onValueChange = { telefone = it }),
+        FormInput("Senha:", "", isPassword = true, value = senha, onValueChange = { senha = it }),
+        FormInput("Confirmação de senha:", "", isPassword = true, value = confirmacaoSenha, onValueChange = { confirmacaoSenha = it })
     )
 
     Scaffold(
         topBar = { NavbarVariation() },
+        bottomBar = { Footer() }, // <-- bottomBar é do Scaffold, não do FormContainer!
         content = { innerPadding ->
             Column(
                 modifier = Modifier
@@ -116,27 +97,21 @@ fun RegisterUser(navActions: NavActions) {
                                             .show()
                                     }
                                 )
-                    modifier = Modifier.weight(1f),
-                    // Captura dos valores dos campos
-                    cliqueSeta = { /*...*/ },
-                    onInputChange = { index, value ->
-                        when (index) {
-                            0 -> nome = value
-                            1 -> email = value
-                            2 -> telefone = value
-                            3 -> senha = value
-                            4 -> confirmacaoSenha = value
-                        }
-                    }
+                            },
+                            width = 200.dp,
+                            height = 35.dp,
+                            backgroundColor = ArchBlue
+                        )
+                    },
+                    modifier = Modifier.weight(1f) // Só use SE seu FormContainer aceita esse parâmetro!
                 )
             }
-        },
-        bottomBar = { Footer() }
+        }
     )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-private fun RegisterPreview() {
+fun RegisterPreview() {
     RegisterUser(navActions = NavActions(rememberNavController()))
 }

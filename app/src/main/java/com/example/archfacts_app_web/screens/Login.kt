@@ -24,11 +24,13 @@ import com.example.archfacts_app_web.components.CustomButton
 import com.example.archfacts_app_web.components.FormContainer
 import com.example.archfacts_app_web.components.FormInput
 import com.example.archfacts_app_web.components.NavbarVariation
+import com.example.archfacts_app_web.data.models.LoginResponse
 import com.example.archfacts_app_web.navigation.AppRoutes
 import com.example.archfacts_app_web.navigation.NavActions
 import com.example.archfacts_app_web.screens.home_sections.Footer
 import com.example.archfacts_app_web.ui.theme.ArchBlue
 import com.example.archfacts_app_web.ui.theme.ArchOrange
+import com.example.archfacts_app_web.viewModel.LoginUiState
 import com.example.archfacts_app_web.viewModel.UserViewModel
 import com.example.archfacts_app_web.viewModel.UserViewModelFactory
 
@@ -63,29 +65,28 @@ fun Login(
                     cliqueSeta = { navActions.navigate(AppRoutes.Home) },
                     button = {
                         CustomButton(
-                            text = if (loginState is UserViewModel.LoginUiState.Loading) "Entrando..." else "Login",
+                            text = if (loginState is LoginUiState.Loading) "Entrando..." else "Login",
                             onClick = {
                                 userViewModel.login(
                                     login = login,
                                     senha = senha,
                                     onSuccess = {
-                                        // Salve o token, se necessário
                                         navActions.navigateToHome()
                                     },
                                     onError = {
-                                        // Você pode mostrar Toast ou um Text na tela
+                                        // Mostrar erro, se quiser
                                     }
                                 )
                             },
                             width = 200.dp,
                             height = 35.dp,
                             backgroundColor = ArchOrange,
-//                            enabled = loginState !is UserViewModel.LoginUiState.Loading
+                            // enabled = loginState !is LoginUiState.Loading // Só se existir esse parâmetro no seu botão!
                         )
                     },
                     modifier = Modifier.weight(1f)
                 )
-                if (loginState is UserViewModel.LoginUiState.Error) {
+                if (loginState is LoginUiState.Error) {
                     Text(loginState.message, color = Color.Red)
                 }
             }
@@ -93,7 +94,6 @@ fun Login(
         bottomBar = { Footer() }
     )
 }
-
 @Preview(showBackground = true)
 @Composable
 fun LoginPreview() {

@@ -10,12 +10,12 @@ sealed class AppRoutes(
 ) {
     object Home : AppRoutes("home")
     object Registro : AppRoutes("registro")
-    object Splash : AppRoutes("splash")
     object Login : AppRoutes("login")
-    object Ajuda : AppRoutes("ajuda")
-    object Sobre : AppRoutes("sobre")
-    object Configuracoes : AppRoutes("configuracoes")
-
+        object Chamados : AppRoutes("chamados")
+        object ChamadosBeneficiario : AppRoutes("chamados_beneficiario")
+        object Tarefas : AppRoutes("tarefas")
+        object ProjetosPrestador : AppRoutes("projetos_prestador")
+        object ProjetosBeneficiario : AppRoutes("projetos_beneficiario")
 
     data class Perfil(val idUsuario: String) : AppRoutes(
         route = "perfil/$idUsuario",
@@ -31,9 +31,5 @@ sealed class AppRoutes(
         }
     }
 
-    // EXEMPLO
-    data class ProjetosBeneficiario(val idUsuario: String, val idNegocio: String) : AppRoutes(
-        route = "projetos/{idUsuario}/{idNegocio}",
-        args = listOf(idUsuario, idNegocio)
-    )
+
 }
