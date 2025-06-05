@@ -1,34 +1,13 @@
 package com.example.archfacts_app_web.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -39,8 +18,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.archfacts_app_web.R
-//import com.example.archfacts_app_web.SearchBar
 import com.example.archfacts_app_web.components.CardType
 import com.example.archfacts_app_web.components.Counter
 import com.example.archfacts_app_web.components.NavbarCorner
@@ -48,7 +27,16 @@ import com.example.archfacts_app_web.components.NavigationBar
 import com.example.archfacts_app_web.enums.RequestEnum
 import com.example.archfacts_app_web.ui.theme.ArchBlack
 import com.example.archfacts_app_web.ui.theme.Poppins
+import com.example.archfacts_app_web.viewModel.RequestsViewModel
 
+// ---------- TIPOS DE TELA ----------
+sealed class RequestScreenType {
+    object Chamados : RequestScreenType()
+    object ChamadosBeneficiario : RequestScreenType()
+    object Tarefas : RequestScreenType()
+}
+
+// ---------- DADOS MOCKADOS ----------
 data class RequestData(
     val title: String,
     val dateEnd: String,
@@ -56,6 +44,17 @@ data class RequestData(
     val type: CardType,
     val project: String = "",
 )
+
+@Composable
+fun AddButton(onClick: () -> Unit, color: Color) {
+    Button(
+        onClick = onClick,
+        colors = ButtonDefaults.buttonColors(containerColor = color),
+        modifier = Modifier.padding(8.dp)
+    ) {
+        Text(text = "Adicionar")
+    }
+}
 
 @Composable
 fun RequestItem(request: RequestData) {
@@ -140,79 +139,52 @@ fun RequestItem(request: RequestData) {
                     .background(request.type.backgroundColor)
                     .fillMaxHeight()
             ) {
-                Icon(
-                    imageVector = Icons.Filled.PlayArrow,
-                    contentDescription = "Ícone de seta",
-                    tint = Color.White
-                )
+//                Icon(
+//                    painterResource(id = R.drawable.ic_add), // ou PlayArrow, conforme preferir
+//                    contentDescription = "Ícone de ação",
+//                    tint = Color.White
+//                )
             }
         }
     }
 }
 
 @Composable
-fun RequestsScreen(modifier: Modifier = Modifier, type: CardType) {
-
-    var searchQuery by remember { mutableStateOf("") } // Estado para a barra de pesquisa
-
-    val sampleRequests = listOf(
-        RequestData(
-            title = "Validar cores",
-            dateEnd = "28 Mar, 10:29",
-            status = RequestEnum.FINALIZADO,
-            type = type
-        ),
-        RequestData(
-            title = "Corrigir bug UI",
-            dateEnd = "29 Mar, 14:30",
-            status = RequestEnum.EM_PROGRESSO,
-            type = type
-        ),
-        RequestData(
-            title = "Validar cores",
-            dateEnd = "28 Mar, 10:29",
-            status = RequestEnum.FINALIZADO,
-            type = type
-        ),
-        RequestData(
-            title = "Validar cores",
-            dateEnd = "28 Mar, 10:29",
-            status = RequestEnum.FINALIZADO,
-            type = type
-        ),
-        RequestData(
-            title = "Validar cores",
-            dateEnd = "28 Mar, 10:29",
-            status = RequestEnum.FINALIZADO,
-            type = type
-        ),
-        RequestData(
-            title = "Validar cores",
-            dateEnd = "28 Mar, 10:29",
-            status = RequestEnum.FINALIZADO,
-            type = type
-        )
+fun RequestsScreen(
+    screenType: RequestScreenType,
+    viewModel: RequestsViewModel = viewModel()
+) {
+    var searchQuery by remember { mutableStateOf("") }
+    val requests = viewModel.getRequests(
+        when (screenType) {
+            is RequestScreenType.Chamados, is RequestScreenType.ChamadosBeneficiario -> CardType.Chamados
+            is RequestScreenType.Tarefas -> CardType.Tarefas
+        }
     )
 
-    val title = when (type) {
-        is CardType.Chamados -> "Chamados"
-        is CardType.Tarefas -> "Tarefas"
+    // Parâmetros variáveis por tela
+    val title = when (screenType) {
+        is RequestScreenType.Chamados -> "Chamados"
+        is RequestScreenType.Tarefas -> "Tarefas"
+        is RequestScreenType.ChamadosBeneficiario -> "Chamados"
     }
-    val subtitle = when (type) {
-        is CardType.Chamados -> "Projeto de Abelhas"
-        is CardType.Tarefas -> "Tarefas do Projeto"
+    val subtitleVisible = screenType is RequestScreenType.Tarefas
+    val subtitle = if (subtitleVisible) "Tarefas do Projeto" else ""
+    val color = when (screenType) {
+        is RequestScreenType.Tarefas -> Color(0xFFFFA726) // Laranja
+        else -> Color(0xFF1976D2) // Azul
     }
-    val color = type.backgroundColor
+    val showCounter = screenType is RequestScreenType.Chamados
+    val showAddButtonInCounter = screenType is RequestScreenType.ChamadosBeneficiario
+    val showAddButtonBelowCards = screenType is RequestScreenType.Tarefas
 
     Scaffold(
         topBar = {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth()
             ) {
                 NavbarCorner()
-
                 Column(
                     modifier = Modifier.padding(top = 16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -224,35 +196,42 @@ fun RequestsScreen(modifier: Modifier = Modifier, type: CardType) {
                         fontWeight = FontWeight.SemiBold,
                         color = color
                     )
-                    Text(
-                        text = subtitle,
-                        fontFamily = Poppins,
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = color,
-                    )
+                    if (subtitleVisible) {
+                        Text(
+                            text = subtitle,
+                            fontFamily = Poppins,
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = color,
+                        )
+                    }
                 }
                 Row(modifier = Modifier.padding(8.dp)) {
-                    Counter(
-                        25, color
-                    )
+                    if (showCounter) {
+                        Counter(requests.size, color)
+                    } else if (showAddButtonInCounter) {
+                        AddButton(
+                            onClick = { /* ação de adicionar chamado beneficiário */ },
+                            color = color
+                        )
+                    }
                 }
             }
         },
         content = { innerPadding ->
-
             Column(
                 verticalArrangement = Arrangement.SpaceAround,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
             ) {
-                SearchBar(
-                    query = searchQuery,
-                    onQueryChange = { searchQuery = it },
-                    onSearch = {},
-                    modifier = Modifier.padding(16.dp)
-                )
+                // Descomente se tiver o SearchBar implementado
+                // SearchBar(
+                //     query = searchQuery,
+                //     onQueryChange = { searchQuery = it },
+                //     onSearch = {},
+                //     modifier = Modifier.padding(16.dp)
+                // )
                 Surface(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -270,32 +249,59 @@ fun RequestsScreen(modifier: Modifier = Modifier, type: CardType) {
                     LazyColumn(
                         verticalArrangement = Arrangement.Center,
                         modifier = Modifier
-                            .padding()
                             .fillMaxWidth()
                             .padding(8.dp)
                     ) {
-                        items(sampleRequests) { request ->
+                        items(requests) { request ->
                             RequestItem(request = request)
                             Spacer(modifier = Modifier.height(16.dp))
                         }
                     }
                 }
+
+                if (showAddButtonBelowCards) {
+                    AddButton(
+                        onClick = { /* ação de adicionar tarefa */ },
+                        color = color
+                    )
+                }
+
                 Row {
-                    NavigationBar("Ir para projetos", color)
+                    // Aqui você decide para onde navegar:
+                    // - Se for Tarefas: vai para Chamados
+                    // - Se for ChamadosBeneficiario: vai para projetos do beneficiário
+                    // - Se for Chamados: vai para projetos
+                    NavigationBar(
+                        text = when (screenType) {
+                            is RequestScreenType.Tarefas -> "Ir para chamados"
+                            is RequestScreenType.ChamadosBeneficiario -> "Ir para projetos do beneficiário"
+                            else -> "Ir para projetos"
+                        },
+                        color = color
+                        // Adapte para sua navegação real!
+                        // onClick = { ... }
+                    )
                 }
             }
-        },
-        bottomBar = {}
+        }
     )
 }
 
-
-@Preview
+// ---------- PREVIEWS ----------
+@Preview(showBackground = true)
 @Composable
-fun RequestsScreenPreview() {
-    val requestTeste = RequestData(
-        "Validar cores", "28 Mar, 10:29", RequestEnum.FINALIZADO,
-        CardType.Chamados
-    )
-    RequestsScreen(type = CardType.Chamados)
+fun PreviewChamados() {
+    RequestsScreen(screenType = RequestScreenType.Chamados)
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewChamadosBeneficiario() {
+    RequestsScreen(screenType = RequestScreenType.ChamadosBeneficiario)
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewTarefas() {
+    RequestsScreen(screenType = RequestScreenType.Tarefas)
 }
