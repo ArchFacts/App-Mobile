@@ -5,7 +5,9 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.archfacts_app_web.PartnerCompaniesScreen
 import com.example.archfacts_app_web.screens.Login
+import com.example.archfacts_app_web.screens.ParceriasScreen
 import com.example.archfacts_app_web.screens.RegisterUser
 import com.example.archfacts_app_web.screens.home_sections.HeroSection
 
@@ -48,7 +50,7 @@ fun AppNavGraph(navController: NavHostController) {
 
     NavHost(
         navController = navController,
-        startDestination = AppRoutes.Home.route
+        startDestination = AppRoutes.KnowOurPartners.route
     ) {
         composable(route = AppRoutes.Home.route) {
             val actions = rememberNavActions(navController)
@@ -61,6 +63,14 @@ fun AppNavGraph(navController: NavHostController) {
         }
         composable(route = AppRoutes.Login.route) {
             Login(navActions = NavActions(navController))
+        }
+        composable(route = AppRoutes.KnowOurPartners.route) {
+            val actions = rememberNavActions(navController)
+            ParceriasScreen(actions)
+        }
+        composable(route = AppRoutes.PartnerCompanies.route) {
+            val actions = rememberNavActions(navController)
+            PartnerCompaniesScreen(actions)
         }
 
     }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +29,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.archfacts_app_web.R
+import com.example.archfacts_app_web.navigation.AppRoutes
+import com.example.archfacts_app_web.navigation.NavActions
 import com.example.archfacts_app_web.ui.theme.Poppins
 
 class ParceriasActivity : ComponentActivity() {
@@ -39,7 +42,6 @@ class ParceriasActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = Color.White
                 ) {
-                    ParceriasScreen()
                 }
             }
         }
@@ -47,7 +49,7 @@ class ParceriasActivity : ComponentActivity() {
 }
 
 @Composable
-fun ParceriasScreen() {
+fun ParceriasScreen(navActions: NavActions) {
     val Orange = Color(0xFFF95C00)
 
     Box(
@@ -103,7 +105,8 @@ fun ParceriasScreen() {
                 contentDescription = "Seta",
                 modifier = Modifier
                     .size(150.dp)
-                    .rotate(180f), // Rotaciona 90 graus para a direita
+                    .rotate(180f)
+                    .clickable {navActions.navigate(AppRoutes.PartnerCompanies)}, // Rotaciona 90 graus para a direita
                 contentScale = ContentScale.Fit
             )
         }
@@ -114,6 +117,5 @@ fun ParceriasScreen() {
 @Composable
 fun ParceriasScreenPreview() {
     MaterialTheme {
-        ParceriasScreen()
     }
 }

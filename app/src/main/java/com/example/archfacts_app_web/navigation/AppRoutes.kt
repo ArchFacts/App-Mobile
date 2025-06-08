@@ -11,11 +11,14 @@ sealed class AppRoutes(
     object Home : AppRoutes("home")
     object Registro : AppRoutes("registro")
     object Login : AppRoutes("login")
-        object Chamados : AppRoutes("chamados")
-        object ChamadosBeneficiario : AppRoutes("chamados_beneficiario")
-        object Tarefas : AppRoutes("tarefas")
-        object ProjetosPrestador : AppRoutes("projetos_prestador")
-        object ProjetosBeneficiario : AppRoutes("projetos_beneficiario")
+    object Chamados : AppRoutes("chamados")
+    object ChamadosBeneficiario : AppRoutes("chamados_beneficiario")
+    object Tarefas : AppRoutes("tarefas")
+    object ProjetosPrestador : AppRoutes("projetos_prestador")
+    object ProjetosBeneficiario : AppRoutes("projetos_beneficiario")
+    object KnowOurPartners : AppRoutes("know-our-partners")
+    object PartnerCompanies : AppRoutes("partner-companies")
+
 
     data class Perfil(val idUsuario: String) : AppRoutes(
         route = "perfil/$idUsuario",

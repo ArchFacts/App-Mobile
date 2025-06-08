@@ -16,13 +16,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.archfacts_app_web.components.EnterpriseCard
 import com.example.archfacts_app_web.components.NavbarCorner
+import com.example.archfacts_app_web.navigation.NavActions
 import com.example.archfacts_app_web.ui.theme.ArchBlue
 import com.example.archfacts_app_web.ui.theme.ArchFactsAppWebTheme
 import com.example.archfacts_app_web.ui.theme.Poppins
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PartnerCompaniesScreen() {
+fun PartnerCompaniesScreen(navActions: NavActions) {
     Scaffold(
         topBar = {
             Row(
@@ -119,6 +120,5 @@ fun PartnerCompaniesScreen() {
 @Composable
 fun PartnerCompaniesPreview() {
     ArchFactsAppWebTheme {
-        PartnerCompaniesScreen()
     }
 }
