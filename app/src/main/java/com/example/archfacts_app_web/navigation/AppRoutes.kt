@@ -17,8 +17,6 @@ sealed class AppRoutes(
     object ProjetosPrestador : AppRoutes("projetos_prestador")
     object ProjetosBeneficiario : AppRoutes("projetos_beneficiario")
     object KnowOurPartners : AppRoutes("know-our-partners")
-    object PartnerCompanies : AppRoutes("partner-companies")
-
 
     data class Perfil(val idUsuario: String) : AppRoutes(
         route = "perfil/$idUsuario",
@@ -33,6 +31,13 @@ sealed class AppRoutes(
             }
         }
     }
+       object PartnerCompanies : AppRoutes("partner_companies")
+        data class ServiceScreen(val idNegocio: String) : AppRoutes("service_screen/{idNegocio}") {
+            companion object {
+                fun createRoute(idNegocio: String) = "service_screen/$idNegocio"
+            }
+        }
+
 
 
 }

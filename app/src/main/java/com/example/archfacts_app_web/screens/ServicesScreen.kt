@@ -1,197 +1,127 @@
+package com.example.archfacts_app_web.screens
+
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import com.example.archfacts_app_web.data.network.ApiService
+import com.example.archfacts_app_web.data.network.RetrofitInstance
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.archfacts_app_web.R
-import com.example.archfacts_app_web.components.NavbarCorner
+import com.example.archfacts_app_web.data.models.Servico
+import com.example.archfacts_app_web.data.repositories.ServicoRepository
+import com.example.archfacts_app_web.navigation.NavActions
+import kotlinx.coroutines.launch
+import retrofit2.http.GET
+import retrofit2.http.Path
 
-@Composable
-fun EnterpriseScreen() {
-    Scaffold(
-        topBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-                    .background(Color.White),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-               
-                NavbarCorner()
 
-                Row(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = "Volkswagen",
-                        style = TextStyle(
-                            fontSize = 22.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.Black
-                        )
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Image(
-                        painter = painterResource(id = R.drawable.volks),
-                        contentDescription = "Logo Volks",
-                        modifier = Modifier.size(30.dp)
-                    )
-                }
+
+
+
+// --- VIEWMODEL ---
+class ServicosViewModel(
+    private val repository: ServicoRepository
+) : ViewModel() {
+
+    var servicos by mutableStateOf<List<Servico>>(emptyList())
+        private set
+    var loading by mutableStateOf(false)
+        private set
+    var erro by mutableStateOf<String?>(null)
+        private set
+
+    fun carregarServicos(idNegocio: String) {
+        loading = true
+        erro = null
+        viewModelScope.launch {
+            try {
+                servicos = repository.buscarServicosEmpresa(idNegocio)
+            } catch (e: Exception) {
+                erro = "Erro ao buscar serviços: ${e.message}"
+            } finally {
+                loading = false
             }
-        },
-        content = { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .padding(16.dp)
-                    .verticalScroll(rememberScrollState())
-            ) {
-                ContactSection()
-                Spacer(modifier = Modifier.height(24.dp))
-                DescriptionSection()
-                Spacer(modifier = Modifier.height(24.dp))
-                ServicesSection()
-            }
-        }
-    )
-}
-
-@Composable
-fun ContactSection() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .background(Color(0xFF0E0C19))
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Área de atuação: Automóveis",
-            style = TextStyle(
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White
-            )
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = "E-mail: volks@gmail.com",
-            style = TextStyle(
-                fontSize = 16.sp,
-                color = Color.White
-            )
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = "Telefone: (99) 9999-9999",
-            style = TextStyle(
-                fontSize = 16.sp,
-                color = Color.White
-            )
-        )
-
-
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(
-            onClick = { /* ação do botão */ },
-            modifier = Modifier
-                .width(170.dp)
-                .height(32.dp)
-                .clip(RoundedCornerShape(0.dp)),
-            colors = ButtonDefaults.buttonColors(
-                Color(0xFF033E8C),
-                contentColor = Color.White
-            )
-        ) {
-            Text("Entrar Em Contato", fontWeight = FontWeight.Bold)
         }
     }
 }
 
-@Composable
-fun DescriptionSection() {
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Text(
-            text = "Descrição da empresa",
-            style = TextStyle(
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black
-            )
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = "Fundada em 1937, é uma das maiores montadoras do mundo...",
-            style = TextStyle(fontSize = 16.sp, color = Color.Black)
-        )
+// --- VIEWMODEL FACTORY ---
+class ServicosViewModelFactory(
+    private val repository: ServicoRepository
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return ServicosViewModel(repository) as T
     }
 }
 
+// --- SERVICE SCREEN ---
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ServicesSection(
-    services: List<Service> = listOf(
-        Service(
-            title = "Carros econômicos",
-            description = "Possui os carros mais econômicos do mercado.",
-            imageRes = R.drawable.service3
-        ),
-        Service(
-            title = "Carros clássicos",
-            description = "Possui os carros mais memoráveis do mercado.",
-            imageRes = R.drawable.service2
-        ),
-        Service(
-            title = "Carros estéticos",
-            description = "Possui carros referência em estética do mercado.",
-            imageRes = R.drawable.service1
+fun ServiceScreen(
+    idNegocio: String,
+    navActions: NavActions,
+    viewModel: ServicosViewModel = viewModel(
+        factory = ServicosViewModelFactory(
+            ServicoRepository(RetrofitInstance.api)
         )
     )
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp) // Padding lateral para não colar nas bordas
-    ) {
-        Text(
-            text = "Serviços",
-            style = TextStyle(
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black
-            )
-        )
-        Spacer(modifier = Modifier.height(16.dp))
+    LaunchedEffect(idNegocio) { viewModel.carregarServicos(idNegocio) }
 
-        services.forEach { service ->
-            ServiceCard(
-                title = service.title,
-                description = service.description,
-                imageRes = service.imageRes
-            )
-            Spacer(modifier = Modifier.height(16.dp))
+    Scaffold(
+        topBar = {
+            TopAppBar(title = { Text("Serviços da empresa") })
+        },
+        content = { paddingValues ->
+            Box(modifier = Modifier.padding(paddingValues)) {
+                when {
+                    viewModel.loading -> {
+                        Box(
+                            Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) { CircularProgressIndicator() }
+                    }
+                    viewModel.erro != null -> {
+                        Box(
+                            Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) { Text("Erro: ${viewModel.erro}") }
+                    }
+                    else -> {
+                        LazyColumn(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(16.dp)
+                        ) {
+                            items(viewModel.servicos) { servico ->
+                                ServiceCard(
+                                    title = servico.nome,
+                                    description = servico.descricao,
+                                    imageRes = R.drawable.service1 // Troque para o correto se tiver imagem
+                                )
+                                Spacer(modifier = Modifier.height(16.dp))
+                            }
+                        }
+                    }
+                }
+            }
         }
-    }
+    )
 }
 
+// --- SERVICE CARD (reaproveite o seu, mas aqui vai um exemplo simples) ---
 @Composable
 fun ServiceCard(
     title: String,
@@ -201,63 +131,50 @@ fun ServiceCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
+            .height(100.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+            modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Imagem à esquerda
             Image(
                 painter = painterResource(id = imageRes),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(90.dp)
-                    .clip(RoundedCornerShape(8.dp))
+                contentDescription = "Ícone serviço",
+                modifier = Modifier.size(64.dp)
             )
-
             Spacer(modifier = Modifier.width(16.dp))
-
-            // Textos à direita
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(
-                    text = title,
-                    style = TextStyle(
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
-                    )
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = description,
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        color = Color.Gray
-                    )
-                )
+            Column {
+                Text(text = title, fontSize = 18.sp, color = MaterialTheme.colorScheme.onSurface)
+                Text(text = description, fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurface)
             }
         }
     }
 }
 
-// Modelo de dados mantido igual
-data class Service(
-    val title: String,
-    val description: String,
-    val imageRes: Int
-)
-
+// --- PREVIEW SERVICE SCREEN (com MOCK) ---
 @Preview(showBackground = true)
 @Composable
-fun ScreenPreview() {
+fun PreviewServiceScreen() {
+    val mockServicos = listOf(
+        Servico("1", "Carros Econômicos", "Possui os carros mais econômicos do mercado."),
+        Servico("2", "Carros Clássicos", "Possui os carros mais memoráveis do mercado.")
+    )
     MaterialTheme {
-        EnterpriseScreen()
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            items(mockServicos) { servico ->
+                ServiceCard(
+                    title = servico.nome,
+                    description = servico.descricao,
+                    imageRes = R.drawable.service1 // Troque para o correto se tiver imagem
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+        }
     }
 }

@@ -5,9 +5,9 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.archfacts_app_web.PartnerCompaniesScreen
 import com.example.archfacts_app_web.screens.Login
 import com.example.archfacts_app_web.screens.ParceriasScreen
+import com.example.archfacts_app_web.screens.PartnerCompaniesScreen
 import com.example.archfacts_app_web.screens.RegisterUser
 import com.example.archfacts_app_web.screens.home_sections.HeroSection
 
@@ -24,6 +24,16 @@ class NavActions(private val navController: NavHostController) {
                 saveState = true
             }
             restoreState = true
+        }
+    }
+    fun navigate(route: String) {
+        try {
+            println("Tentando navegar para: ${route}")
+            navController.navigate(route) {
+            }
+        } catch (e: Exception) {
+            println("Erro de navegação: ${e.message}")
+            e.printStackTrace()
         }
     }
     fun navigate(route: AppRoutes) {
@@ -50,7 +60,7 @@ fun AppNavGraph(navController: NavHostController) {
 
     NavHost(
         navController = navController,
-        startDestination = AppRoutes.KnowOurPartners.route
+        startDestination = AppRoutes.Home.route
     ) {
         composable(route = AppRoutes.Home.route) {
             val actions = rememberNavActions(navController)
