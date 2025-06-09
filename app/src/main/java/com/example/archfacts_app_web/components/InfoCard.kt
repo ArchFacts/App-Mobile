@@ -30,7 +30,7 @@ fun InfoCard(
     text: String,
     qtd: Int,
     qtdProgresso: Int,
-    qtdFechado: Int,
+    qtdFechado: Any,
     modifier: Modifier = Modifier,
     style: InfoCardStyle = InfoCardStyle.Azul
 ) {

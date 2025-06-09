@@ -53,7 +53,8 @@ fun NavigationButton(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .shadow(6.dp, RoundedCornerShape(16.dp))
-            .background(Color.White, RoundedCornerShape(16.dp)),
+            .background(Color.White, RoundedCornerShape(16.dp))
+            .clickable { onClick() }, // <-- Torna toda a linha clicável!
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
@@ -86,22 +87,5 @@ fun NavigationButton(
                 modifier = Modifier.size(40.dp)
             )
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewNavigationButton() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        NavigationButton(
-            text = "Ir para chamados",
-            modifier = Modifier.fillMaxWidth(0.9f),
-            onClick = { }
-        )
     }
 }

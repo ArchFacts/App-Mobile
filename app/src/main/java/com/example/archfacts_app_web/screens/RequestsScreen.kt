@@ -1,33 +1,38 @@
 package com.example.archfacts_app_web.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.archfacts_app_web.R
 import com.example.archfacts_app_web.components.CardType
 import com.example.archfacts_app_web.components.Counter
+import com.example.archfacts_app_web.components.NavAppPrestador
 import com.example.archfacts_app_web.components.NavbarCorner
 import com.example.archfacts_app_web.components.NavigationBar
 import com.example.archfacts_app_web.enums.RequestEnum
+import com.example.archfacts_app_web.navigation.AppRoutes
+import com.example.archfacts_app_web.navigation.NavActions
 import com.example.archfacts_app_web.ui.theme.ArchBlack
 import com.example.archfacts_app_web.ui.theme.Poppins
 import com.example.archfacts_app_web.viewModel.RequestsViewModel
+import kotlinx.coroutines.launch
+import androidx.lifecycle.viewmodel.compose.viewModel
+
 
 // ---------- TIPOS DE TELA ----------
 sealed class RequestScreenType {
@@ -57,7 +62,10 @@ fun AddButton(onClick: () -> Unit, color: Color) {
 }
 
 @Composable
-fun RequestItem(request: RequestData) {
+fun RequestItem(
+    request: RequestData,
+    onOpen: () -> Unit // <-- Novo parâmetro para botão de detalhes
+) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -99,7 +107,9 @@ fun RequestItem(request: RequestData) {
                 painter = painterResource(R.drawable.clipboard),
                 contentDescription = "Icone de prancheta",
                 tint = ArchBlack,
-                modifier = Modifier.size(22.dp)
+                modifier = Modifier
+                    .size(22.dp)
+                    .clickable { onOpen() } // <-- Botão de ação
             )
 
             Spacer(Modifier.weight(1f))
@@ -109,8 +119,8 @@ fun RequestItem(request: RequestData) {
                 fontWeight = FontWeight.Medium,
                 fontFamily = Poppins,
                 maxLines = 2,
-                textAlign = TextAlign.Center,
-                overflow = TextOverflow.Ellipsis,
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
                 modifier = Modifier.width(55.dp),
             )
 
@@ -139,22 +149,24 @@ fun RequestItem(request: RequestData) {
                     .background(request.type.backgroundColor)
                     .fillMaxHeight()
             ) {
-//                Icon(
-//                    painterResource(id = R.drawable.ic_add), // ou PlayArrow, conforme preferir
-//                    contentDescription = "Ícone de ação",
-//                    tint = Color.White
-//                )
+                // Pode adicionar outros ícones aqui se quiser
             }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RequestsScreen(
     screenType: RequestScreenType,
+    navActions: NavActions,
     viewModel: RequestsViewModel = viewModel()
 ) {
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+    val windowInsets = WindowInsets.navigationBars.asPaddingValues()
     var searchQuery by remember { mutableStateOf("") }
+
     val requests = viewModel.getRequests(
         when (screenType) {
             is RequestScreenType.Chamados, is RequestScreenType.ChamadosBeneficiario -> CardType.Chamados
@@ -162,7 +174,6 @@ fun RequestsScreen(
         }
     )
 
-    // Parâmetros variáveis por tela
     val title = when (screenType) {
         is RequestScreenType.Chamados -> "Chamados"
         is RequestScreenType.Tarefas -> "Tarefas"
@@ -176,132 +187,129 @@ fun RequestsScreen(
     }
     val showCounter = screenType is RequestScreenType.Chamados
     val showAddButtonInCounter = screenType is RequestScreenType.ChamadosBeneficiario
-    val showAddButtonBelowCards = screenType is RequestScreenType.Tarefas
 
-    Scaffold(
-        topBar = {
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                NavbarCorner()
-                Column(
-                    modifier = Modifier.padding(top = 16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+    ModalNavigationDrawer(
+        drawerContent = {
+            NavAppPrestador(
+                navActions = navActions,
+                closeDrawer = { scope.launch { drawerState.close() } }
+            )
+        },
+        drawerState = drawerState
+    ) {
+        Scaffold(
+            containerColor = Color.White,
+            topBar = {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(
-                        text = title,
-                        fontFamily = Poppins,
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = color
-                    )
-                    if (subtitleVisible) {
+                    NavbarCorner { scope.launch { drawerState.open() } }
+                    Column(
+                        modifier = Modifier.padding(top = 16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                         Text(
-                            text = subtitle,
+                            text = title,
                             fontFamily = Poppins,
                             fontSize = 24.sp,
                             fontWeight = FontWeight.SemiBold,
-                            color = color,
-                        )
-                    }
-                }
-                Row(modifier = Modifier.padding(8.dp)) {
-                    if (showCounter) {
-                        Counter(requests.size, color)
-                    } else if (showAddButtonInCounter) {
-                        AddButton(
-                            onClick = { /* ação de adicionar chamado beneficiário */ },
                             color = color
                         )
+                        if (subtitleVisible) {
+                            Text(
+                                text = subtitle,
+                                fontFamily = Poppins,
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = color,
+                            )
+                        }
                     }
-                }
-            }
-        },
-        content = { innerPadding ->
-            Column(
-                verticalArrangement = Arrangement.SpaceAround,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-            ) {
-                // Descomente se tiver o SearchBar implementado
-                // SearchBar(
-                //     query = searchQuery,
-                //     onQueryChange = { searchQuery = it },
-                //     onSearch = {},
-                //     modifier = Modifier.padding(16.dp)
-                // )
-                Surface(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 5.dp)
-                        .shadow(
-                            3.dp,
-                            clip = true,
-                            ambientColor = Color.Black.copy(alpha = 0.8f),
-                            spotColor = Color.Black.copy(alpha = 0.8f),
-                            shape = RoundedCornerShape(8.dp)
-                        )
-                        .clip(RoundedCornerShape(8.dp)),
-                    color = Color.White,
-                ) {
-                    LazyColumn(
-                        verticalArrangement = Arrangement.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp)
-                    ) {
-                        items(requests) { request ->
-                            RequestItem(request = request)
-                            Spacer(modifier = Modifier.height(16.dp))
+                    Row(modifier = Modifier.padding(8.dp)) {
+                        if (showCounter) {
+                            Counter(requests.size, color)
+                        } else if (showAddButtonInCounter) {
+                            AddButton(
+                                onClick = { navActions.goBack() },
+                                color = color
+                            )
                         }
                     }
                 }
-
-                if (showAddButtonBelowCards) {
-                    AddButton(
-                        onClick = { /* ação de adicionar tarefa */ },
-                        color = color
-                    )
-                }
-
-                Row {
-                    // Aqui você decide para onde navegar:
-                    // - Se for Tarefas: vai para Chamados
-                    // - Se for ChamadosBeneficiario: vai para projetos do beneficiário
-                    // - Se for Chamados: vai para projetos
-                    NavigationBar(
-                        text = when (screenType) {
-                            is RequestScreenType.Tarefas -> "Ir para chamados"
-                            is RequestScreenType.ChamadosBeneficiario -> "Ir para projetos do beneficiário"
-                            else -> "Ir para projetos"
-                        },
-                        color = color
-                        // Adapte para sua navegação real!
-                        // onClick = { ... }
-                    )
+            },
+            content = { innerPadding ->
+                Column(
+                    verticalArrangement = Arrangement.SpaceAround,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding)
+                        .padding(windowInsets)
+                        .background(Color.White)
+                ) {
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 5.dp)
+                            .shadow(
+                                3.dp,
+                                clip = true,
+                                ambientColor = Color.Black.copy(alpha = 0.8f),
+                                spotColor = Color.Black.copy(alpha = 0.8f),
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                            .clip(RoundedCornerShape(8.dp)),
+                        color = Color.White,
+                    ) {
+                        LazyColumn(
+                            verticalArrangement = Arrangement.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp)
+                        ) {
+                            items(requests) { request ->
+                                RequestItem(
+                                    request = request,
+                                    onOpen = {
+                                        when (screenType) {
+                                            is RequestScreenType.Tarefas ->
+                                                navActions.navigate(AppRoutes.Tarefas)
+                                            is RequestScreenType.Chamados ->
+                                                navActions.navigate(AppRoutes.Chamados)
+                                            is RequestScreenType.ChamadosBeneficiario ->
+                                                navActions.navigate(AppRoutes.ChamadosBeneficiario)
+                                        }
+                                    }
+                                )
+                                Spacer(modifier = Modifier.height(16.dp))
+                            }
+                        }
+                    }
                 }
             }
-        }
-    )
+        )
+    }
 }
-
-// ---------- PREVIEWS ----------
-@Preview(showBackground = true)
-@Composable
-fun PreviewChamados() {
-    RequestsScreen(screenType = RequestScreenType.Chamados)
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewChamadosBeneficiario() {
-    RequestsScreen(screenType = RequestScreenType.ChamadosBeneficiario)
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewTarefas() {
-    RequestsScreen(screenType = RequestScreenType.Tarefas)
-}
+//
+//// ---------- PREVIEWS ----------
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewChamados() {
+//    // Passe um navActions fake para preview
+//    val fakeNavActions = object : NavActions(navController = androidx.navigation.compose.rememberNavController()) {}
+//    RequestsScreen(screenType = RequestScreenType.Chamados, navActions = fakeNavActions)
+//}
+//
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewChamadosBeneficiario() {
+//    val fakeNavActions = object : NavActions(navController = androidx.navigation.compose.rememberNavController()) {}
+//    RequestsScreen(screenType = RequestScreenType.ChamadosBeneficiario, navActions = fakeNavActions)
+//}
+//
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewTarefas() {
+//    val fakeNavActions = object : NavActions(navController = androidx.navigation.compose.rememberNavController()) {}
+//    RequestsScreen(screenType = RequestScreenType.Tarefas, navActions = fakeNavActions)
+//}

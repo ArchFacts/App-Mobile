@@ -276,7 +276,7 @@ fun RequestDetails() {
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                NavbarCorner()
+//                NavbarCorner()
 
                 Row(modifier = Modifier.padding(8.dp)) {
                     Text(

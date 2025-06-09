@@ -1,6 +1,7 @@
 package com.example.archfacts_app_web.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
@@ -14,13 +15,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.archfacts_app_web.R
+import com.example.archfacts_app_web.navigation.AppRoutes
 import com.example.archfacts_app_web.ui.theme.ArchBlue
 import com.example.archfacts_app_web.ui.theme.ArchOrange
 import com.example.archfacts_app_web.ui.theme.Poppins
@@ -44,13 +45,14 @@ sealed class CardType(
 }
 
 @Composable
-fun ChoiceCard(type: CardType, number: Int) {
+fun ChoiceCard(type: CardType, number: Int, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .width(175.dp)
             .height(175.dp)
             .clip(RoundedCornerShape(16.dp))
-            .background(type.backgroundColor),
+            .background(type.backgroundColor)
+            .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -83,9 +85,9 @@ fun ChoiceCard(type: CardType, number: Int) {
         }
     }
 }
-
-@Preview
-@Composable
-fun ChoiceCardPreview() {
-    ChoiceCard(CardType.Chamados, 33)
-}
+//
+//@Preview
+//@Composable
+//fun ChoiceCardPreview() {
+//    ChoiceCard(CardType.Chamados, 33) { navActions.navigate(AppRoutes.Chamados) }
+//}

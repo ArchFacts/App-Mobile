@@ -31,7 +31,7 @@ fun CheckProjectsScreen() {
                     .height(55.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                NavbarCorner()
+//                NavbarCorner()
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     text = "Projetos em Análise",

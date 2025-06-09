@@ -1,6 +1,7 @@
 package com.example.archfacts_app_web.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,9 +28,12 @@ import com.example.archfacts_app_web.ui.theme.ArchOrange
 import com.example.archfacts_app_web.ui.theme.Poppins
 
 @Composable
-fun NavLine(icon: Painter, text: String) {
+fun NavLine(icon: Painter, text: String, onClick: () -> Unit = {}) {
     Column(horizontalAlignment = Alignment.Start) {
-        Row (verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.clickable { onClick() }
+        ) {
             Icon(
                 painter = icon,
                 tint = ArchOrange,

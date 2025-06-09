@@ -31,7 +31,7 @@ fun EnterpriseScreen() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                
-                NavbarCorner()
+//                NavbarCorner()
 
                 Row(
                     modifier = Modifier
