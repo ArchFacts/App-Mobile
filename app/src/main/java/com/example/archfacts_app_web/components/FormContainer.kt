@@ -86,13 +86,12 @@ fun FormInputField(
                     onValueChange = onValueChange,
                     placeholder = {
                         Text(
-                            text = placeholder,
+                            text = placeholder, // Só dica, não o valor!
                             color = Color.Black,
-                            fontSize = 14.sp,
+                            fontSize = 14.sp
                         )
                     },
-                    visualTransformation = if (senhaVisivel) VisualTransformation.None
-                    else PasswordVisualTransformation(),
+                    visualTransformation = if (senhaVisivel) VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
                         val image = if (senhaVisivel)
                             painterResource(id = R.drawable.showing_eye)
@@ -115,8 +114,8 @@ fun FormInputField(
                         unfocusedIndicatorColor = Color.Transparent,
                         disabledIndicatorColor = Color.Transparent
                     ),
+                    singleLine = true // Adicione para não quebrar linha na senha
                 )
-
             } else {
                 TextField(
                     value = value,

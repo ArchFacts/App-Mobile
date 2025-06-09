@@ -56,8 +56,8 @@ fun Login(
             ) {
                 FormContainer(
                     listOf(
-                        FormInput("Login:", login, onValueChange = { login = it }),
-                        FormInput("Senha", senha, isPassword = true, onValueChange = { senha = it }),
+                        FormInput("Login:","Digite seu login", login, onValueChange = { login = it }),
+                        FormInput("Senha","Digite sua senha", value = senha, isPassword = true, onValueChange = { senha = it }),
                     ),
                     RectangleShape,
                     title = "Login",
